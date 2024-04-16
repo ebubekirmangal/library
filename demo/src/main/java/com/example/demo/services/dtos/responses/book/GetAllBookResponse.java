@@ -17,7 +17,11 @@ public class GetAllBookResponse {
 
     private String isbn;
 
+    private int numberOfPage;
+
     private int authorId;
+
+    private Boolean isBorrow;
 
     private String authorFirstName;
 

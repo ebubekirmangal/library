@@ -18,7 +18,11 @@ public class DeleteBookResponse {
 
     private String isbn;
 
+    private int numberOfPage;
+
     private int authorId;
+
+    private Boolean isBorrow;
 
     private String authorFirstName;
 

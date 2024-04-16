@@ -8,13 +8,13 @@ import lombok.Setter;
 
 import java.util.List;
 
+@Entity
+@Table(name = "publishers")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "categories")
-@Entity
-public class Category {
+public class Publisher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,6 @@ public class Category {
 
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "publisher")
     private List<Book> books;
-
 }

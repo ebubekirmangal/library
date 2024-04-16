@@ -29,6 +29,12 @@ public class Borrow {
     @Column(name ="delay_date")
     private LocalDateTime delayDate;
 
+    @OneToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

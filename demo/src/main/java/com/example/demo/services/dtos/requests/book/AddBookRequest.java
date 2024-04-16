@@ -15,5 +15,9 @@ public class AddBookRequest {
 
     private String isbn;
 
+    private int numberOfPage;
+
     private int authorId;
+
+    private Boolean isBorrow;
 }

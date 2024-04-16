@@ -17,8 +17,9 @@ import java.util.List;
 @NoArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int tcNum;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "tc_num")
+    private String tcNum;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_type")
@@ -30,7 +31,7 @@ public class User {
     @Column(name="last_name")
     private String lastName;
 
-    @OneToMany(mappedBy = "")
+    @OneToMany(mappedBy = "user")
     private List<Borrow> borrows;
 
 }

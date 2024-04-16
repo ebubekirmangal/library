@@ -1,6 +1,5 @@
 package com.example.demo.entities;
 
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,5 +26,20 @@ public class Book {
     @JoinColumn(name = "author_id")
     private Author author;
 
+    @Column(name = "number_of_page")
+    private int numberOfPage;
+
+    @Column(name ="is_borrow")
     private Boolean isBorrow;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "publisher_id")
+    private Publisher publisher;
+
+    @OneToOne(mappedBy = "book")
+    private Borrow borrow;
 }
