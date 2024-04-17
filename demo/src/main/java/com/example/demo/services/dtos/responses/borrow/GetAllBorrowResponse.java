@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -21,5 +21,5 @@ public class GetAllBorrowResponse {
 
     private List<String> bookNames;
 
-    private LocalDateTime pickUpDate;
+    private LocalDate pickUpDate;
 }

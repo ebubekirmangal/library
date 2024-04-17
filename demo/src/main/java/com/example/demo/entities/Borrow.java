@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -21,14 +21,14 @@ public class Borrow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="recived_date")
-    private LocalDateTime pickUpDate;
+    @Column(name="pick_up_date")
+    private LocalDate pickUpDate;
 
     @Column(name ="delivery_date")
-    private LocalDateTime deliveryDate;
+    private LocalDate deliveryDate;
 
-    @Column(name ="delay_date")
-    private LocalDateTime delayDate;
+    @Column(name ="delay_day")
+    private int delayDay;
 
     @OneToMany(mappedBy = "borrow")
     private List<Book> books;

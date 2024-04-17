@@ -9,7 +9,7 @@ import com.example.demo.services.dtos.responses.borrow.DeleteBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.GetAllBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.UpdateBorrowResponse;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,23 +17,19 @@ import java.util.stream.Collectors;
 @Mapper
 public interface BorrowMapper {
 
+    BorrowMapper INSTANCE = Mappers.getMapper(BorrowMapper.class);
 
-    @Mapping(target = "books",source = "bookIds")
+
     Borrow borrowToAddBorrowRequest(AddBorrowRequest request);
 
-    @Mapping(target = "bookNames",source = "books")
     AddBorrowResponse addBorrowResponse(Borrow borrow);
 
-    @Mapping(target = "books",source = "bookId")
     Borrow borrowToUptadeBorrowRequest(UpdateBorrowRequest request);
 
-    @Mapping(target = "bookNames",source = "books")
     UpdateBorrowResponse updateBorrowResponseToBorrow(Borrow borrow);
 
-    @Mapping(target = "bookNames",source = "books")
     DeleteBorrowResponse deleteBorrowResponseToBorrow(Borrow borrow);
 
-    @Mapping(target = "bookNames",source = "books")
     GetAllBorrowResponse getAllBorrowResponse(Borrow borrow);
 
     default List<String> mapBorrowsToBookName(List<Book> books) {
@@ -41,7 +37,7 @@ public interface BorrowMapper {
             return null;
         }
         return books.stream()
-                .map(Book::getName) // Corrected method reference
+                .map(book->book.getName()) // Corrected method reference
                 .collect(Collectors.toList());
     }
 
@@ -50,7 +46,7 @@ public interface BorrowMapper {
             return null;
         }
         return books.stream()
-                .map(Book::getId) // Corrected method reference
+                .map(book-> book.getId()) // Corrected method reference
                 .collect(Collectors.toList());
     }
 }

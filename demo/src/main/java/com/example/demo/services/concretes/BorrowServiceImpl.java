@@ -1,14 +1,12 @@
 package com.example.demo.services.concretes;
 
 import com.example.demo.entities.Borrow;
-import com.example.demo.repositories.AuthorRepository;
+import com.example.demo.mappers.BorrowMapper;
 import com.example.demo.repositories.BorrowRepository;
-import com.example.demo.services.abstracts.BookService;
 import com.example.demo.services.abstracts.BorrowService;
 import com.example.demo.services.dtos.requests.borrow.AddBorrowRequest;
 import com.example.demo.services.dtos.requests.borrow.DeleteBorrowRequest;
 import com.example.demo.services.dtos.requests.borrow.UpdateBorrowRequest;
-import com.example.demo.services.dtos.responses.borrow.AddBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.DeleteBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.GetAllBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.UpdateBorrowResponse;
@@ -27,12 +25,17 @@ public class BorrowServiceImpl implements BorrowService {
 
     @Override
     public AddBorrowResponse add(AddBorrowRequest request) {
-        Borrow borrow;
-        return null;
+        Borrow borrow = BorrowMapper.INSTANCE.borrowToAddBorrowRequest(request);
+        Borrow saved = borrowRepository.save(borrow);
+
+        AddBorrowResponse response = BorrowMapper.INSTANCE.addBorrowResponse(saved);
+        return response;
     }
 
     @Override
     public UpdateBorrowResponse update(UpdateBorrowRequest request) {
+
+
         return null;
     }
 
