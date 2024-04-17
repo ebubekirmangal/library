@@ -34,6 +34,8 @@ public class Borrow {
     @ManyToOne
     @JoinColumn(name = "tc_num")
     private User user;
-    @OneToMany(mappedBy = "borrow")
-    private List<Punishment> punishments;
+//    @OneToMany(mappedBy = "borrow")
+//    private List<Punishment> punishments;
+    @OneToOne(mappedBy = "borrow")
+    private Delivery delivery;
 }

@@ -15,12 +15,23 @@ public class AddDeliveryResponse {
 
     private int id;
 
-    private LocalDate receivedDate;
+    private String tcNum;
 
     private String firstName;
 
     private String lastName;
 
     private String bookName;
+
+    private LocalDate deadLine;
+
+    private int delayDate;
+
+    private LocalDate receivedDate;
+
+    private LocalDate pickUpDate;
+
+    private double totalFee;
+
 
 }

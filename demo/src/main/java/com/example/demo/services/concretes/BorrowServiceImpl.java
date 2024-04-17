@@ -2,7 +2,6 @@ package com.example.demo.services.concretes;
 
 import com.example.demo.core.utils.exceptions.types.BusinessException;
 import com.example.demo.entities.Borrow;
-import com.example.demo.services.mappers.BorrowMapper;
 import com.example.demo.repositories.BorrowRepository;
 import com.example.demo.services.abstracts.BorrowService;
 import com.example.demo.services.dtos.requests.borrow.AddBorrowRequest;
@@ -12,17 +11,20 @@ import com.example.demo.services.dtos.responses.borrow.AddBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.DeleteBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.GetAllBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.UpdateBorrowResponse;
+import com.example.demo.services.mappers.BorrowMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BorrowServiceImpl implements BorrowService {
 
     private BorrowRepository borrowRepository;
 
-    public BorrowServiceImpl(BorrowRepository borrowRepository) {
+
+    public BorrowServiceImpl(BorrowRepository borrowRepository ){
         this.borrowRepository = borrowRepository;
     }
 
@@ -30,6 +32,7 @@ public class BorrowServiceImpl implements BorrowService {
     public AddBorrowResponse add(AddBorrowRequest request) {
         Borrow borrow = BorrowMapper.INSTANCE.borrowToAddBorrowRequest(request);
         Borrow saved = borrowRepository.save(borrow);
+
 
         AddBorrowResponse response = BorrowMapper.INSTANCE.addBorrowResponse(saved);
         return response;

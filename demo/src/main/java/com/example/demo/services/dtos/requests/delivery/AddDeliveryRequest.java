@@ -13,9 +13,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class AddDeliveryRequest {
 
+
+    private int borrowId;
+
     private LocalDate receivedDate;
 
-    private String tcNum;
-
-    private int bookId;
 }
