@@ -2,7 +2,7 @@ package com.example.demo.services.concretes;
 
 import com.example.demo.core.utils.exceptions.types.BusinessException;
 import com.example.demo.entities.User;
-import com.example.demo.mappers.UserMapper;
+import com.example.demo.services.mappers.UserMapper;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.abstracts.UserService;
 import com.example.demo.services.dtos.requests.user.AddUserRequest;

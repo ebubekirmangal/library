@@ -14,11 +14,10 @@ public interface BorrowService {
 
     AddBorrowResponse add(AddBorrowRequest request);
 
-    UpdateBorrowResponse receivedManagement(UpdateBorrowRequest request);
+    UpdateBorrowResponse update(UpdateBorrowRequest request);
 
     DeleteBorrowResponse delete(DeleteBorrowRequest request);
 
     List<GetAllBorrowResponse> getAll();
 
-    void LocalDate
 }

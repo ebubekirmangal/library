@@ -2,7 +2,7 @@ package com.example.demo.services.concretes;
 
 import com.example.demo.core.utils.exceptions.types.BusinessException;
 import com.example.demo.entities.Category;
-import com.example.demo.mappers.CategoryMapper;
+import com.example.demo.services.mappers.CategoryMapper;
 import com.example.demo.repositories.CategoryRepository;
 import com.example.demo.services.abstracts.CategoryService;
 import com.example.demo.services.dtos.requests.category.AddCategoryRequest;

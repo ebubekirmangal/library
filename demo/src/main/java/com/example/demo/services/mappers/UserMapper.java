@@ -1,6 +1,5 @@
-package com.example.demo.mappers;
+package com.example.demo.services.mappers;
 
-import com.example.demo.entities.Book;
 import com.example.demo.entities.Borrow;
 import com.example.demo.entities.User;
 import com.example.demo.services.dtos.requests.user.AddUserRequest;

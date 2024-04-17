@@ -2,7 +2,7 @@ package com.example.demo.services.concretes;
 
 import com.example.demo.core.utils.exceptions.types.BusinessException;
 import com.example.demo.entities.Borrow;
-import com.example.demo.mappers.BorrowMapper;
+import com.example.demo.services.mappers.BorrowMapper;
 import com.example.demo.repositories.BorrowRepository;
 import com.example.demo.services.abstracts.BorrowService;
 import com.example.demo.services.dtos.requests.borrow.AddBorrowRequest;
@@ -14,8 +14,6 @@ import com.example.demo.services.dtos.responses.borrow.GetAllBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.UpdateBorrowResponse;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,26 +35,11 @@ public class BorrowServiceImpl implements BorrowService {
         return response;
     }
 
-    @Override
-    public UpdateBorrowResponse receivedManagement(UpdateBorrowRequest request) {
+
+    public UpdateBorrowResponse update(UpdateBorrowRequest request) {
         Borrow borrow = BorrowMapper.INSTANCE.borrowToUpdateBorrowRequest(request);
         Borrow receivedDate = borrowRepository.save(borrow);
-
         UpdateBorrowResponse response = BorrowMapper.INSTANCE.updateBorrowResponseToBorrow(receivedDate);
-
-        LocalDate borrowDeadline = response.getPickUpDate().plusDays(15);
-        LocalDate receivedDeliveryDate = receivedDate.getDeliveryDate();
-
-        long daysDifference = borrowDeadline.until(receivedDeliveryDate).getDays();
-
-
-        if (daysDifference < 0) {
-
-            System.out.println("Ceazayı hakettin");
-        } else {
-            System.out.println("sana ceza yok");
-        }
-
         return response;
     }
 

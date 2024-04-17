@@ -42,4 +42,7 @@ public class Book {
 
     @OneToOne(mappedBy = "book")
     private Borrow borrow;
+
+    @OneToOne(mappedBy = "book")
+    private Delivery delivery;
 }

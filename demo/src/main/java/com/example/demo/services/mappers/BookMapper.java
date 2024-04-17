@@ -1,4 +1,4 @@
-package com.example.demo.mappers;
+package com.example.demo.services.mappers;
 
 import com.example.demo.entities.Book;
 import com.example.demo.services.dtos.requests.book.AddBookRequest;

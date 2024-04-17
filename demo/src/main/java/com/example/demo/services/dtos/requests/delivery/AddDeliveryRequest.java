@@ -1,4 +1,4 @@
-package com.example.demo.services.dtos.requests.borrow;
+package com.example.demo.services.dtos.requests.delivery;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,20 +6,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class UpdateBorrowRequest {
+@NoArgsConstructor
+public class AddDeliveryRequest {
 
-    private int id;
+    private LocalDate receivedDate;
 
     private String tcNum;
 
     private int bookId;
-
-    private LocalDate pickUpDate;
-
 }

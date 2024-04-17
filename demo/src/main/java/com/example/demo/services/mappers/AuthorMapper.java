@@ -1,4 +1,4 @@
-package com.example.demo.mappers;
+package com.example.demo.services.mappers;
 
 import com.example.demo.entities.Author;
 import com.example.demo.services.dtos.requests.author.AddAuthorRequest;

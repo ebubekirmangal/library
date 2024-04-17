@@ -2,7 +2,7 @@ package com.example.demo.services.concretes;
 
 import com.example.demo.core.utils.exceptions.types.BusinessException;
 import com.example.demo.entities.Author;
-import com.example.demo.mappers.AuthorMapper;
+import com.example.demo.services.mappers.AuthorMapper;
 import com.example.demo.repositories.AuthorRepository;
 import com.example.demo.services.abstracts.AuthorService;
 import com.example.demo.services.dtos.requests.author.AddAuthorRequest;

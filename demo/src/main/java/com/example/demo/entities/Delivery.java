@@ -9,31 +9,28 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.List;
 
+@Table(name = "deliveries")
 @Entity
-@Table(name = "borrows")
-@Setter
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
-public class Borrow {
-
+@AllArgsConstructor
+public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(name="pick_up_date")
-    private LocalDate pickUpDate;
-
-    @Column(name = "dead_line")
-    private LocalDate deadLine;
+    @Column(name = "received_date")
+    private LocalDate receivedDate;
 
 
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     @OneToOne
     @JoinColumn(name = "book_id")
     private Book book;
-    @ManyToOne
-    @JoinColumn(name = "tc_num")
-    private User user;
-    @OneToMany(mappedBy = "borrow")
+    @OneToMany(mappedBy = "delivery")
     private List<Punishment> punishments;
+
 }

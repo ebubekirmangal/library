@@ -1,7 +1,6 @@
-package com.example.demo.mappers;
+package com.example.demo.services.mappers;
 
 import com.example.demo.entities.Book;
-import com.example.demo.entities.Borrow;
 import com.example.demo.entities.Category;
 import com.example.demo.services.dtos.requests.category.AddCategoryRequest;
 import com.example.demo.services.dtos.requests.category.UpdateCategoryRequest;

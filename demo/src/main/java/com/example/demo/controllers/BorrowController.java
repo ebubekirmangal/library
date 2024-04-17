@@ -29,9 +29,9 @@ public class BorrowController {
         return  borrowService.add(request);
     }
 
-    @PutMapping("/receivingManagement")
-    public UpdateBorrowResponse receivedManagement(UpdateBorrowRequest request){
-        return borrowService.receivedManagement(request);
+    @PutMapping("/update")
+    public UpdateBorrowResponse update(UpdateBorrowRequest request){
+        return borrowService.update(request);
     }
 
     @DeleteMapping("/delete")
