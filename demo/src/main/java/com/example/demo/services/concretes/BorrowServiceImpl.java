@@ -1,5 +1,6 @@
 package com.example.demo.services.concretes;
 
+import com.example.demo.core.utils.exceptions.types.BusinessException;
 import com.example.demo.entities.Borrow;
 import com.example.demo.mappers.BorrowMapper;
 import com.example.demo.repositories.BorrowRepository;
@@ -7,11 +8,15 @@ import com.example.demo.services.abstracts.BorrowService;
 import com.example.demo.services.dtos.requests.borrow.AddBorrowRequest;
 import com.example.demo.services.dtos.requests.borrow.DeleteBorrowRequest;
 import com.example.demo.services.dtos.requests.borrow.UpdateBorrowRequest;
+import com.example.demo.services.dtos.responses.borrow.AddBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.DeleteBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.GetAllBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.UpdateBorrowResponse;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,19 +38,49 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public UpdateBorrowResponse update(UpdateBorrowRequest request) {
+    public UpdateBorrowResponse receivedManagement(UpdateBorrowRequest request) {
+        Borrow borrow = BorrowMapper.INSTANCE.borrowToUpdateBorrowRequest(request);
+        Borrow receivedDate = borrowRepository.save(borrow);
+
+        UpdateBorrowResponse response = BorrowMapper.INSTANCE.updateBorrowResponseToBorrow(receivedDate);
+
+        LocalDate borrowDeadline = response.getPickUpDate().plusDays(15);
+        LocalDate receivedDeliveryDate = receivedDate.getDeliveryDate();
+
+        long daysDifference = borrowDeadline.until(receivedDeliveryDate).getDays();
 
 
-        return null;
+        if (daysDifference < 0) {
+
+            System.out.println("Ceazayı hakettin");
+        } else {
+            System.out.println("sana ceza yok");
+        }
+
+        return response;
     }
 
     @Override
     public DeleteBorrowResponse delete(DeleteBorrowRequest request) {
-        return null;
+        Borrow borrowId = borrowRepository.findById(request.getId()).orElseThrow(()->new BusinessException("id bulunamadı."));
+        borrowRepository.delete(borrowId);
+
+        DeleteBorrowResponse response = BorrowMapper.INSTANCE.deleteBorrowResponseToBorrow(borrowId);
+
+        return response;
     }
 
     @Override
     public List<GetAllBorrowResponse> getAll() {
-        return null;
+        List<Borrow> borrows = borrowRepository.findAll();
+        List<GetAllBorrowResponse> result = new ArrayList<>();
+
+        for(Borrow borrow:borrows){
+            GetAllBorrowResponse dto = BorrowMapper.INSTANCE.getAllBorrowResponse(borrow);
+            result.add(dto);
+        }
+
+        return result;
     }
+
 }

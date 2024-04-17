@@ -24,14 +24,19 @@ public class Borrow {
     @Column(name="pick_up_date")
     private LocalDate pickUpDate;
 
+
     @Column(name ="delivery_date")
     private LocalDate deliveryDate;
+
+    @Column(name = "dead_line")
+    private LocalDate deadLine;
 
     @Column(name ="delay_day")
     private int delayDay;
 
-    @OneToMany(mappedBy = "borrow")
-    private List<Book> books;
+    @OneToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
 
     @ManyToOne
     @JoinColumn(name = "tc_num")

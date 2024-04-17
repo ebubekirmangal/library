@@ -19,4 +19,5 @@ public interface BookService {
     List<GetAllBookResponse> getAll();
 
     GetByIdBookResponse getById(GetByIdBookRequest request);
+
 }

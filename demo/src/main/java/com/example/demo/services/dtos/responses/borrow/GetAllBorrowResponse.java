@@ -19,7 +19,7 @@ public class GetAllBorrowResponse {
 
     private String lastName;
 
-    private List<String> bookNames;
+    private String bookName;
 
     private LocalDate pickUpDate;
 }

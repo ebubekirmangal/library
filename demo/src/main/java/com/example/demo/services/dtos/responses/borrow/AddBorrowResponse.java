@@ -20,7 +20,7 @@ public class AddBorrowResponse {
 
     private String lastName;
 
-    private List<String> bookNames;
+    private String bookName;
 
     private LocalDate pickUpDate;
 }

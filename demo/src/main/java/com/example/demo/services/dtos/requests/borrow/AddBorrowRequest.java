@@ -16,7 +16,8 @@ public class AddBorrowRequest {
 
     private String tcNum;
 
-    private List<Integer> bookIds;
+    private int bookId;
 
     private LocalDate pickUpDate;
+
 }

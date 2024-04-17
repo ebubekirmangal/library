@@ -18,7 +18,8 @@ public class UpdateBorrowRequest {
 
     private String tcNum;
 
-    private List<Integer> bookIds;
+    private int bookId;
 
-    private LocalDate pickUpDate;
+    private LocalDate deliveryDate;
+
 }

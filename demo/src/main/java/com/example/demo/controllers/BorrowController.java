@@ -4,6 +4,7 @@ import com.example.demo.services.abstracts.BorrowService;
 import com.example.demo.services.dtos.requests.borrow.AddBorrowRequest;
 import com.example.demo.services.dtos.requests.borrow.DeleteBorrowRequest;
 import com.example.demo.services.dtos.requests.borrow.UpdateBorrowRequest;
+import com.example.demo.services.dtos.responses.borrow.AddBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.DeleteBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.GetAllBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.UpdateBorrowResponse;
@@ -28,9 +29,9 @@ public class BorrowController {
         return  borrowService.add(request);
     }
 
-    @PutMapping("/update")
-    public UpdateBorrowResponse update(UpdateBorrowRequest request){
-        return borrowService.update(request);
+    @PutMapping("/receivingManagement")
+    public UpdateBorrowResponse receivedManagement(UpdateBorrowRequest request){
+        return borrowService.receivedManagement(request);
     }
 
     @DeleteMapping("/delete")

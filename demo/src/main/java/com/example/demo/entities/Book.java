@@ -40,7 +40,6 @@ public class Book {
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
-    @ManyToOne
-    @JoinColumn(name = "borrow_id")
+    @OneToOne(mappedBy = "book")
     private Borrow borrow;
 }
