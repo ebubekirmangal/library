@@ -1,5 +1,6 @@
 package com.example.demo.services.concretes;
 
+import com.example.demo.core.utils.exceptions.types.BusinessException;
 import com.example.demo.entities.Book;
 import com.example.demo.mappers.BookMapper;
 import com.example.demo.repositories.BookRepository;
@@ -48,7 +49,7 @@ public class BookServiceImpl implements BookService {
 
     public DeleteBookResponse delete(DeleteBookRequest request){
 
-        Book requestId = bookRepository.findById(request.getId()).orElseThrow(()-> new RuntimeException("id bulunamadı."));
+        Book requestId = bookRepository.findById(request.getId()).orElseThrow(()-> new BusinessException("id bulunamadı."));
         bookRepository.delete(requestId);
 
         DeleteBookResponse response = BookMapper.INSTANCE.deleteBookResponseToBook(requestId);

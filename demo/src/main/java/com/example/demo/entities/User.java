@@ -17,7 +17,6 @@ import java.util.List;
 @NoArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "tc_num")
     private String tcNum;
 

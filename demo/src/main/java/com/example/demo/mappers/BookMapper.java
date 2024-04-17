@@ -17,26 +17,32 @@ public interface BookMapper {
     BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
 
     @Mapping(target = "author.id" ,source = "authorId")
+    @Mapping(target = "category.id",source = "categoryId")
     Book bookToAddBookRequest(AddBookRequest request);
 
     @Mapping(target = "authorFirstName",source = "author.firstName")
     @Mapping(target = "authorLastName",source = "author.lastName")
     @Mapping(target = "authorId" ,source = "author.id")
+    @Mapping(target = "categoryName" , source = "category.name")
     AddBookResponse addBookResponsetoBook(Book book);
 
     @Mapping(target = "author.id" ,source = "authorId")
+    @Mapping(target = "category.id",source = "categoryId")
     Book bookToUpdateBookRequest(UpdateBookRequest request);
     @Mapping(target = "authorFirstName",source = "author.firstName")
     @Mapping(target = "authorLastName",source = "author.lastName")
     @Mapping(target = "authorId" ,source = "author.id")
+    @Mapping(target = "categoryName" , source = "category.name")
     UpdateBookResponse updateBookResponseToBook(Book book);
 
     @Mapping(target = "authorFirstName",source = "author.firstName")
     @Mapping(target = "authorLastName",source = "author.lastName")
     @Mapping(target = "authorId" ,source = "author.id")
+    @Mapping(target = "categoryName" , source = "category.name")
     DeleteBookResponse deleteBookResponseToBook(Book book);
     @Mapping(target = "authorFirstName",source = "author.firstName")
     @Mapping(target = "authorLastName",source = "author.lastName")
     @Mapping(target = "authorId" ,source = "author.id")
+    @Mapping(target = "categoryName" , source = "category.name")
     GetAllBookResponse getAllBookResponseToBook(Book book);
 }

@@ -8,6 +8,8 @@ import com.example.demo.services.dtos.responses.user.DeleteUserResponse;
 import com.example.demo.services.dtos.responses.user.GetAllUserResponse;
 import com.example.demo.services.dtos.responses.user.UpdateUserResponse;
 
+import java.util.List;
+
 public interface UserService {
     AddUserResponse add(AddUserRequest request);
 
@@ -15,5 +17,5 @@ public interface UserService {
 
     DeleteUserResponse delete(DeleteUserRequest request);
 
-    GetAllUserResponse getAll();
+    List<GetAllUserResponse> getAll();
 }

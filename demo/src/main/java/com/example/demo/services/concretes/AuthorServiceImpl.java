@@ -1,5 +1,6 @@
 package com.example.demo.services.concretes;
 
+import com.example.demo.core.utils.exceptions.types.BusinessException;
 import com.example.demo.entities.Author;
 import com.example.demo.mappers.AuthorMapper;
 import com.example.demo.repositories.AuthorRepository;
@@ -48,7 +49,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public DeleteAuthorResponse delete(DeleteAuthorRequest request) {
 
-        Author findId = authorRepository.findById(request.getId()).orElseThrow(()-> new RuntimeException("id bulunmadı"));
+        Author findId = authorRepository.findById(request.getId()).orElseThrow(()-> new BusinessException("id bulunmadı"));
         authorRepository.delete(findId);
 
         DeleteAuthorResponse response = AuthorMapper.INSTANCE.deleteAuthorResponseToAuthor(findId);

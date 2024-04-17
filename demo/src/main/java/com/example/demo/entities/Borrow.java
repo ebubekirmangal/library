@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "borrows")
@@ -21,7 +22,7 @@ public class Borrow {
     private int id;
 
     @Column(name="recived_date")
-    private LocalDateTime receivedDate;
+    private LocalDateTime pickUpDate;
 
     @Column(name ="delivery_date")
     private LocalDateTime deliveryDate;
@@ -29,12 +30,11 @@ public class Borrow {
     @Column(name ="delay_date")
     private LocalDateTime delayDate;
 
-    @OneToOne
-    @JoinColumn(name = "book_id")
-    private Book book;
+    @OneToMany(mappedBy = "borrow")
+    private List<Book> books;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "tc_num")
     private User user;
 
 }

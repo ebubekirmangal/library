@@ -19,9 +19,12 @@ public class GetAllBookResponse {
 
     private int numberOfPage;
 
-    private int authorId;
+    private String categoryName;
 
     private Boolean isBorrow;
+
+    private int authorId;
+
 
     private String authorFirstName;
 
