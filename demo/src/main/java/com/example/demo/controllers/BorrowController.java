@@ -25,12 +25,12 @@ public class BorrowController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public AddBorrowResponse add(AddBorrowRequest request){
+    public AddBorrowResponse add(@RequestBody AddBorrowRequest request){
         return  borrowService.add(request);
     }
 
     @PutMapping("/update")
-    public UpdateBorrowResponse update(UpdateBorrowRequest request){
+    public UpdateBorrowResponse update(@RequestBody UpdateBorrowRequest request){
         return borrowService.update(request);
     }
 

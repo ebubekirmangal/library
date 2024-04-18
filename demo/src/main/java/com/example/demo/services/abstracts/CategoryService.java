@@ -7,6 +7,7 @@ import com.example.demo.services.dtos.responses.category.AddCategoryResponse;
 import com.example.demo.services.dtos.responses.category.DeleteCategoryResponse;
 import com.example.demo.services.dtos.responses.category.GetAllCategoryResponse;
 import com.example.demo.services.dtos.responses.category.UpdateCategoryResponse;
+import jdk.jfr.Category;
 
 import java.util.List;
 
@@ -19,4 +20,5 @@ public interface CategoryService {
     DeleteCategoryResponse delete(DeleteCategoryRequest request);
 
     List<GetAllCategoryResponse> getAll();
+
 }

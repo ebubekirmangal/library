@@ -30,18 +30,18 @@ public class AuthorsController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public AddAuthorResponse add(AddAuthorRequest request){
+    public AddAuthorResponse add(@RequestBody AddAuthorRequest request){
         return  authorService.add(request);
     }
 
     @PutMapping("/update")
-    public UpdateAuthorResponse update(UpdateAuthorRequest request){
+    public UpdateAuthorResponse update(@RequestBody UpdateAuthorRequest request){
 
         return authorService.update(request);
     }
 
     @DeleteMapping("/delete")
-    public DeleteAuthorResponse delete(DeleteAuthorRequest request){
+    public DeleteAuthorResponse delete(@RequestBody DeleteAuthorRequest request){
         return authorService.delete(request);
     }
 

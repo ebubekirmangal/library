@@ -1,8 +1,12 @@
 package com.example.demo.services.concretes;
 
 import com.example.demo.core.utils.exceptions.types.BusinessException;
+import com.example.demo.entities.Book;
 import com.example.demo.entities.Borrow;
+import com.example.demo.entities.User;
+import com.example.demo.repositories.BookRepository;
 import com.example.demo.repositories.BorrowRepository;
+import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.abstracts.BorrowService;
 import com.example.demo.services.dtos.requests.borrow.AddBorrowRequest;
 import com.example.demo.services.dtos.requests.borrow.DeleteBorrowRequest;
@@ -23,14 +27,32 @@ public class BorrowServiceImpl implements BorrowService {
 
     private BorrowRepository borrowRepository;
 
+    private UserRepository userRepository;
 
-    public BorrowServiceImpl(BorrowRepository borrowRepository ){
+    private BookRepository bookRepository;
+
+
+    public BorrowServiceImpl(BorrowRepository borrowRepository, UserRepository userRepository, BookRepository bookRepository) {
         this.borrowRepository = borrowRepository;
+        this.userRepository = userRepository;
+        this.bookRepository = bookRepository;
     }
 
     @Override
     public AddBorrowResponse add(AddBorrowRequest request) {
         Borrow borrow = BorrowMapper.INSTANCE.borrowToAddBorrowRequest(request);
+
+        int bookId = request.getBookId();
+        Book book = bookRepository.findById(bookId).orElseThrow(()->new BusinessException("id bulunamadı."));
+
+        String tcNum = request.getTcNum();
+        User user = userRepository.findByTcNum(tcNum);
+        if(user == null){
+            throw new BusinessException("Tc numarası bulunamadı.");
+        }
+
+        borrow.setBook(book);
+        borrow.setUser(user);
         Borrow saved = borrowRepository.save(borrow);
 
 

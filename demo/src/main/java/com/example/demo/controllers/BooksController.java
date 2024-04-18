@@ -25,18 +25,18 @@ public class BooksController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public AddBookResponse add(AddBookRequest request){
+    public AddBookResponse add(@RequestBody AddBookRequest request){
         return bookService.add(request);
     }
 
     @PutMapping("/update")
-    public UpdateBookResponse update(UpdateBookRequest request){
+    public UpdateBookResponse update(@RequestBody UpdateBookRequest request){
 
         return bookService.update(request);
     }
 
     @DeleteMapping("/delete")
-    public DeleteBookResponse delete(DeleteBookRequest request){
+    public DeleteBookResponse delete(@RequestBody DeleteBookRequest request){
         return bookService.delete(request);
     }
 

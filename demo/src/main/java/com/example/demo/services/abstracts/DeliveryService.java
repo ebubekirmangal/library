@@ -4,6 +4,7 @@ import com.example.demo.entities.Borrow;
 import com.example.demo.entities.Delivery;
 import com.example.demo.services.dtos.requests.delivery.AddDeliveryRequest;
 import com.example.demo.services.dtos.responses.delivery.AddDeliveryResponse;
+import com.example.demo.services.dtos.responses.delivery.DeleteDeliveryResponse;
 import com.example.demo.services.dtos.responses.delivery.GetAllDeliveryResponse;
 
 import java.util.List;
@@ -14,5 +15,6 @@ public interface DeliveryService {
 
     List<GetAllDeliveryResponse> getAll();
 
-    public void calculateAndApplyPunishment(Borrow borrow, Delivery delivery);
+    DeleteDeliveryResponse delete(int id);
+
 }

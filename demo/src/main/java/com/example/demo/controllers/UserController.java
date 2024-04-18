@@ -25,17 +25,17 @@ public class UserController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public AddUserResponse add(AddUserRequest request){
+    public AddUserResponse add(@RequestBody AddUserRequest request){
         return userService.add(request);
     }
 
     @PutMapping("/update")
-    public UpdateUserResponse update(UpdateUserRequest request){
+    public UpdateUserResponse update(@RequestBody UpdateUserRequest request){
         return userService.update(request);
     }
 
     @DeleteMapping("/delete")
-    public DeleteUserResponse delete(DeleteUserRequest request){
+    public DeleteUserResponse delete(@RequestBody DeleteUserRequest request){
         return userService.delete(request);
     }
 

@@ -21,7 +21,7 @@ public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     User userToAddUserRequest(AddUserRequest request);
-    @Mapping(target = "bookId",source = "borrows")
+
     AddUserResponse addUserResponseToUser(User user);
 
     User userToUpdateUserRequest(UpdateUserRequest request);

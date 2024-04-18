@@ -23,5 +23,4 @@ public class AddUserResponse {
 
     private String lastName;
 
-    private List<Integer> bookId;
 }

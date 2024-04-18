@@ -24,7 +24,9 @@ public class Delivery {
 
     private  double totalFee;
 
+    private double penaltyFee;
     private long delayDay;
+    private String message;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

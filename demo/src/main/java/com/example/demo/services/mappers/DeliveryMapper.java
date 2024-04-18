@@ -4,6 +4,7 @@ import com.example.demo.entities.Borrow;
 import com.example.demo.entities.Delivery;
 import com.example.demo.services.dtos.requests.delivery.AddDeliveryRequest;
 import com.example.demo.services.dtos.responses.delivery.AddDeliveryResponse;
+import com.example.demo.services.dtos.responses.delivery.DeleteDeliveryResponse;
 import com.example.demo.services.dtos.responses.delivery.GetAllDeliveryResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -25,6 +26,9 @@ public interface DeliveryMapper {
     @Mapping(target = "bookName", source = "borrow.book.name")
     @Mapping(target = "deadLine", source = "borrow.deadLine")
     @Mapping(target = "pickUpDate",source = "borrow.pickUpDate")
+    @Mapping(target = "delayDate", source = "delayDay")
+    @Mapping(target = "totalFee", source = "totalFee")
+    @Mapping(target = "message", source = "message")
     AddDeliveryResponse addDeliveryResponseToDelivery(Delivery delivery);
     @Mapping(target = "tcNum", source = "borrow.user.tcNum")
     @Mapping(target = "firstName", source = "borrow.user.firstName")
@@ -32,6 +36,19 @@ public interface DeliveryMapper {
     @Mapping(target = "bookName", source = "borrow.book.name")
     @Mapping(target = "deadLine", source = "borrow.deadLine")
     @Mapping(target = "pickUpDate",source = "borrow.pickUpDate")
+    @Mapping(target = "delayDate", source = "delayDay")
+    @Mapping(target = "totalFee", source = "totalFee")
+    @Mapping(target = "message", source = "message")
     GetAllDeliveryResponse getAllDeliveryResponseToDelivery(Delivery delivery);
 
+    @Mapping(target = "tcNum", source = "borrow.user.tcNum")
+    @Mapping(target = "firstName", source = "borrow.user.firstName")
+    @Mapping(target = "lastName", source = "borrow.user.lastName")
+    @Mapping(target = "bookName", source = "borrow.book.name")
+    @Mapping(target = "deadLine", source = "borrow.deadLine")
+    @Mapping(target = "pickUpDate",source = "borrow.pickUpDate")
+    @Mapping(target = "delayDate", source = "delayDay")
+    @Mapping(target = "totalFee", source = "totalFee")
+    @Mapping(target = "message", source = "message")
+    DeleteDeliveryResponse deleteDeliverResponseToDelivery(Delivery delivery);
 }

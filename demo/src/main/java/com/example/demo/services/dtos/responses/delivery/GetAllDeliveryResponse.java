@@ -32,4 +32,6 @@ public class GetAllDeliveryResponse {
     private LocalDate pickUpDate;
 
     private double totalFee;
+
+    private String message;
 }

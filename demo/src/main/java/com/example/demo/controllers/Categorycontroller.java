@@ -25,19 +25,19 @@ public class Categorycontroller {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    private AddCategoryResponse add(AddCategoryRequest request){
+    private AddCategoryResponse add(@RequestBody AddCategoryRequest request){
 
         return categoryService.add(request);
     }
 
     @PutMapping("/update")
-    private UpdateCategoryResponse update(UpdateCategoryRequest request){
+    private UpdateCategoryResponse update(@RequestBody UpdateCategoryRequest request){
 
         return categoryService.update(request);
     }
 
     @DeleteMapping("/delete")
-    private DeleteCategoryResponse delete(DeleteCategoryRequest request){
+    private DeleteCategoryResponse delete(@RequestBody DeleteCategoryRequest request){
         return categoryService.delete(request);
     }
 
