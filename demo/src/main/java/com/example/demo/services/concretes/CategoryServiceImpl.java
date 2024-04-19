@@ -6,7 +6,6 @@ import com.example.demo.services.mappers.CategoryMapper;
 import com.example.demo.repositories.CategoryRepository;
 import com.example.demo.services.abstracts.CategoryService;
 import com.example.demo.services.dtos.requests.category.AddCategoryRequest;
-import com.example.demo.services.dtos.requests.category.DeleteCategoryRequest;
 import com.example.demo.services.dtos.requests.category.UpdateCategoryRequest;
 import com.example.demo.services.dtos.responses.category.AddCategoryResponse;
 import com.example.demo.services.dtos.responses.category.DeleteCategoryResponse;
@@ -48,8 +47,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public DeleteCategoryResponse delete(DeleteCategoryRequest request) {
-        Category categoryId = categoryRepository.findById(request.getId()).orElseThrow(()-> new BusinessException("id bulunamadı."));
+    public DeleteCategoryResponse delete(int id) {
+        Category categoryId = categoryRepository.findById(id).orElseThrow(()-> new BusinessException("id bulunamadı."));
         categoryRepository.delete(categoryId);
 
         DeleteCategoryResponse response = CategoryMapper.INSTANCE.deleteCategoryResponseToCategory(categoryId);
@@ -68,6 +67,11 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return result;
+    }
+
+    @Override
+    public Category findById(int id) {
+        return categoryRepository.findById(id).orElseThrow(()-> new BusinessException("id bulunamadı"));
     }
 
 

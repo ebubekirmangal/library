@@ -6,6 +6,7 @@ import com.example.demo.entities.Borrow;
 import com.example.demo.entities.Delivery;
 import com.example.demo.repositories.BorrowRepository;
 import com.example.demo.repositories.DeliveryRepository;
+import com.example.demo.services.abstracts.BorrowService;
 import com.example.demo.services.abstracts.DeliveryService;
 import com.example.demo.services.dtos.requests.delivery.AddDeliveryRequest;
 import com.example.demo.services.dtos.responses.delivery.AddDeliveryResponse;
@@ -25,25 +26,26 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     private DeliveryRepository deliveryRepository;
 
-    private BorrowRepository borrowRepository;
+    private BorrowService borrowService;
 
 
-    public DeliveryServiceImpl(DeliveryRepository deliveryRepository, BorrowRepository borrowRepository) {
+    public DeliveryServiceImpl(DeliveryRepository deliveryRepository, BorrowService borrowService) {
         this.deliveryRepository = deliveryRepository;
-        this.borrowRepository = borrowRepository;
+        this.borrowService = borrowService;
     }
 
     public AddDeliveryResponse add(AddDeliveryRequest request) {
         Delivery delivery = DeliveryMapper.INSTANCE.deliveryToAddDeliveryRequest(request);
 
         int borrowId = request.getBorrowId();
-        Borrow borrow = borrowRepository.findById(borrowId).orElseThrow(() -> new BusinessException("id bulunamadı."));
-        borrow.setDeadLine(borrow.getPickUpDate().plusDays(15));
+        Borrow borrow = borrowService.findById(borrowId);
+        borrow.setDeadLine(borrow.getPickUpDate().plusDays(21));
+
         delivery.setBorrow(borrow);
         delivery.setPenaltyFee(5);
 
-        long daysDifference =ChronoUnit.DAYS.between(borrow.getDeadLine(),delivery.getReceivedDate());
-        delivery.setDelayDay(daysDifference);
+        long daysDifference = ChronoUnit.DAYS.between(borrow.getDeadLine(),delivery.getReceivedDate());
+
 
         if (daysDifference > 0) {
             delivery.setDelayDay(daysDifference);
@@ -51,7 +53,7 @@ public class DeliveryServiceImpl implements DeliveryService {
             delivery.setMessage("Borcunuz bulunmaktadır.");
         } else {
             delivery.setDelayDay(0);
-            delivery.setTotalFee(0);
+            delivery.setTotalFee((double) 0);
             delivery.setMessage("İşleminiz tamamlanmıştır.");
         }
 
@@ -59,6 +61,10 @@ public class DeliveryServiceImpl implements DeliveryService {
         Delivery saved = deliveryRepository.save(delivery);
 
         AddDeliveryResponse response = DeliveryMapper.INSTANCE.addDeliveryResponseToDelivery(saved);
+
+        response.setTotalFee(saved.getTotalFee());
+
+
         return response;
     }
 

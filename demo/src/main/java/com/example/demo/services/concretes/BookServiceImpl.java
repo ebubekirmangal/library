@@ -4,16 +4,12 @@ import com.example.demo.core.utils.exceptions.types.BusinessException;
 import com.example.demo.entities.Author;
 import com.example.demo.entities.Book;
 import com.example.demo.entities.Category;
-import com.example.demo.entities.User;
-import com.example.demo.repositories.AuthorRepository;
-import com.example.demo.repositories.CategoryRepository;
+import com.example.demo.services.abstracts.AuthorService;
 import com.example.demo.services.abstracts.CategoryService;
 import com.example.demo.services.mappers.BookMapper;
 import com.example.demo.repositories.BookRepository;
 import com.example.demo.services.abstracts.BookService;
 import com.example.demo.services.dtos.requests.book.AddBookRequest;
-import com.example.demo.services.dtos.requests.book.DeleteBookRequest;
-import com.example.demo.services.dtos.requests.book.GetByIdBookRequest;
 import com.example.demo.services.dtos.requests.book.UpdateBookRequest;
 import com.example.demo.services.dtos.responses.book.*;
 import org.springframework.stereotype.Service;
@@ -26,14 +22,14 @@ public class BookServiceImpl implements BookService {
 
     private BookRepository bookRepository;
 
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 
-    private AuthorRepository authorRepository;
+    private AuthorService authorService;
 
-    public BookServiceImpl(BookRepository bookRepository, CategoryRepository categoryRepository, AuthorRepository authorRepository) {
+    public BookServiceImpl(BookRepository bookRepository, CategoryService categoryService, AuthorService authorService) {
         this.bookRepository = bookRepository;
-        this.categoryRepository = categoryRepository;
-        this.authorRepository = authorRepository;
+        this.categoryService = categoryService;
+        this.authorService = authorService;
     }
 
     @Override
@@ -42,10 +38,10 @@ public class BookServiceImpl implements BookService {
         Book book = BookMapper.INSTANCE.bookToAddBookRequest(request);
 
         int categoryId = request.getCategoryId();
-        Category category = categoryRepository.findById(categoryId).orElseThrow(()-> new BusinessException("id bulunamadı."));
+        Category category = categoryService.findById(categoryId);
 
         int authorId = request.getAuthorId();
-        Author author = authorRepository.findById(authorId).orElseThrow(()-> new BusinessException("id bulunamadı."));
+        Author author = authorService.findById(authorId);
 
         book.setCategory(category);
         book.setAuthor(author);
@@ -71,9 +67,9 @@ public class BookServiceImpl implements BookService {
         return response;
     }
 
-    public DeleteBookResponse delete(DeleteBookRequest request){
+    public DeleteBookResponse delete(int id){
 
-        Book requestId = bookRepository.findById(request.getId()).orElseThrow(()-> new BusinessException("id bulunamadı."));
+        Book requestId = bookRepository.findById(id).orElseThrow(()-> new BusinessException("id bulunamadı."));
         bookRepository.delete(requestId);
 
         DeleteBookResponse response = BookMapper.INSTANCE.deleteBookResponseToBook(requestId);
@@ -94,7 +90,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public GetByIdBookResponse getById(GetByIdBookRequest request) {
+    public GetByIdBookResponse getById(int id) {
         return null;
+    }
+
+    @Override
+    public Book findById(int id) {
+        return bookRepository.findById(id).orElseThrow(()-> new BusinessException("id bulunamadı."));
     }
 }

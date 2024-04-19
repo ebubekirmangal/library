@@ -22,7 +22,7 @@ public class Book {
     @Column(name = "isbn")
     private String isbn;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "author_id")
     private Author author;
 
@@ -32,7 +32,7 @@ public class Book {
     @Column(name ="is_borrow")
     private Boolean isBorrow = false;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 

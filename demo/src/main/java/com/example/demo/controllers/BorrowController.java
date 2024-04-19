@@ -2,7 +2,6 @@ package com.example.demo.controllers;
 
 import com.example.demo.services.abstracts.BorrowService;
 import com.example.demo.services.dtos.requests.borrow.AddBorrowRequest;
-import com.example.demo.services.dtos.requests.borrow.DeleteBorrowRequest;
 import com.example.demo.services.dtos.requests.borrow.UpdateBorrowRequest;
 import com.example.demo.services.dtos.responses.borrow.AddBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.DeleteBorrowResponse;
@@ -34,9 +33,9 @@ public class BorrowController {
         return borrowService.update(request);
     }
 
-    @DeleteMapping("/delete")
-    public DeleteBorrowResponse delete(DeleteBorrowRequest request){
-        return borrowService.delete(request);
+    @DeleteMapping("/delete/{id}")
+    public DeleteBorrowResponse delete(@PathVariable("id") int id){
+        return borrowService.delete(id);
     }
 
     @GetMapping("/getAll")

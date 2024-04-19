@@ -2,12 +2,8 @@ package com.example.demo.controllers;
 
 import com.example.demo.services.abstracts.UserService;
 import com.example.demo.services.dtos.requests.user.AddUserRequest;
-import com.example.demo.services.dtos.requests.user.DeleteUserRequest;
 import com.example.demo.services.dtos.requests.user.UpdateUserRequest;
-import com.example.demo.services.dtos.responses.user.AddUserResponse;
-import com.example.demo.services.dtos.responses.user.DeleteUserResponse;
-import com.example.demo.services.dtos.responses.user.GetAllUserResponse;
-import com.example.demo.services.dtos.responses.user.UpdateUserResponse;
+import com.example.demo.services.dtos.responses.user.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,13 +30,18 @@ public class UserController {
         return userService.update(request);
     }
 
-    @DeleteMapping("/delete")
-    public DeleteUserResponse delete(@RequestBody DeleteUserRequest request){
-        return userService.delete(request);
+    @DeleteMapping("/delete/{tcNum}")
+    public DeleteUserResponse delete(@PathVariable("tcNum") String tcNum){
+        return userService.delete(tcNum);
     }
 
     @GetMapping("/getAll")
     public List<GetAllUserResponse> getAll(){
         return userService.getAll();
+    }
+
+    @GetMapping("/isActionTake/{tcNum}")
+    public GetByTcNumUserResponse getByTcNum(@PathVariable("tcNum") String tcNum ){
+        return userService.getByTcNum(tcNum);
     }
 }

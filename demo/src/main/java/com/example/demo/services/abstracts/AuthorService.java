@@ -1,8 +1,8 @@
 package com.example.demo.services.abstracts;
 
 
+import com.example.demo.entities.Author;
 import com.example.demo.services.dtos.requests.author.AddAuthorRequest;
-import com.example.demo.services.dtos.requests.author.DeleteAuthorRequest;
 import com.example.demo.services.dtos.requests.author.UpdateAuthorRequest;
 import com.example.demo.services.dtos.responses.author.AddAuthorResponse;
 import com.example.demo.services.dtos.responses.author.DeleteAuthorResponse;
@@ -17,7 +17,9 @@ public interface AuthorService {
 
     UpdateAuthorResponse update(UpdateAuthorRequest request);
 
-    DeleteAuthorResponse delete(DeleteAuthorRequest request);
+    DeleteAuthorResponse delete(int id);
 
     List<GetAllAuthorResponse> getAll();
+
+    Author findById(int id);
 }

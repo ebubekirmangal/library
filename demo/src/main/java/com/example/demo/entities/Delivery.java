@@ -22,10 +22,14 @@ public class Delivery {
     @Column(name = "received_date")
     private LocalDate receivedDate;
 
-    private  double totalFee;
+    @Column(name = "total_fee")
+    private  Double totalFee;
 
+    @Column(name = "penalty_fee")
     private double penaltyFee;
+    @Column(name = "delay_day")
     private long delayDay;
+
     private String message;
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -33,9 +37,6 @@ public class Delivery {
     @OneToOne
     @JoinColumn(name = "book_id")
     private Book book;
-//    @OneToMany(mappedBy = "delivery")
-//    private List<Punishment> punishments;
-
     @OneToOne
     @JoinColumn(name = "borrow_id")
     private Borrow borrow;

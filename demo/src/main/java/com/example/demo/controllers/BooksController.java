@@ -2,7 +2,6 @@ package com.example.demo.controllers;
 
 import com.example.demo.services.abstracts.BookService;
 import com.example.demo.services.dtos.requests.book.AddBookRequest;
-import com.example.demo.services.dtos.requests.book.DeleteBookRequest;
 import com.example.demo.services.dtos.requests.book.UpdateBookRequest;
 import com.example.demo.services.dtos.responses.book.AddBookResponse;
 import com.example.demo.services.dtos.responses.book.DeleteBookResponse;
@@ -35,9 +34,9 @@ public class BooksController {
         return bookService.update(request);
     }
 
-    @DeleteMapping("/delete")
-    public DeleteBookResponse delete(@RequestBody DeleteBookRequest request){
-        return bookService.delete(request);
+    @DeleteMapping("/delete/{id}")
+    public DeleteBookResponse delete(@PathVariable("id") int id ){
+        return bookService.delete(id);
     }
 
     @GetMapping("/GetAll")

@@ -30,7 +30,7 @@ public class DeleteDeliveryResponse {
 
     private LocalDate pickUpDate;
 
-    private double totalFee;
+    private Double totalFee;
 
     private String message;
 

@@ -2,17 +2,11 @@ package com.example.demo.controllers;
 
 import com.example.demo.services.abstracts.AuthorService;
 import com.example.demo.services.dtos.requests.author.AddAuthorRequest;
-import com.example.demo.services.dtos.requests.author.DeleteAuthorRequest;
 import com.example.demo.services.dtos.requests.author.UpdateAuthorRequest;
-import com.example.demo.services.dtos.requests.book.DeleteBookRequest;
-import com.example.demo.services.dtos.requests.book.UpdateBookRequest;
 import com.example.demo.services.dtos.responses.author.AddAuthorResponse;
 import com.example.demo.services.dtos.responses.author.DeleteAuthorResponse;
 import com.example.demo.services.dtos.responses.author.GetAllAuthorResponse;
 import com.example.demo.services.dtos.responses.author.UpdateAuthorResponse;
-import com.example.demo.services.dtos.responses.book.DeleteBookResponse;
-import com.example.demo.services.dtos.responses.book.GetAllBookResponse;
-import com.example.demo.services.dtos.responses.book.UpdateBookResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,9 +34,9 @@ public class AuthorsController {
         return authorService.update(request);
     }
 
-    @DeleteMapping("/delete")
-    public DeleteAuthorResponse delete(@RequestBody DeleteAuthorRequest request){
-        return authorService.delete(request);
+    @DeleteMapping("/delete/{id}")
+    public DeleteAuthorResponse delete(@PathVariable("id") int id){
+        return authorService.delete(id);
     }
 
     @GetMapping("/GetAll")

@@ -36,4 +36,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Delivery> deliveries;
 
+    @Column(name = "is_action_take")
+    private Boolean isActionTake;
+
 }

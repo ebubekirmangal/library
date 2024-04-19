@@ -6,7 +6,6 @@ import com.example.demo.services.mappers.AuthorMapper;
 import com.example.demo.repositories.AuthorRepository;
 import com.example.demo.services.abstracts.AuthorService;
 import com.example.demo.services.dtos.requests.author.AddAuthorRequest;
-import com.example.demo.services.dtos.requests.author.DeleteAuthorRequest;
 import com.example.demo.services.dtos.requests.author.UpdateAuthorRequest;
 import com.example.demo.services.dtos.responses.author.AddAuthorResponse;
 import com.example.demo.services.dtos.responses.author.DeleteAuthorResponse;
@@ -47,9 +46,9 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public DeleteAuthorResponse delete(DeleteAuthorRequest request) {
+    public DeleteAuthorResponse delete(int id) {
 
-        Author findId = authorRepository.findById(request.getId()).orElseThrow(()-> new BusinessException("id bulunmadı"));
+        Author findId = authorRepository.findById(id).orElseThrow(()-> new BusinessException("id bulunmadı"));
         authorRepository.delete(findId);
 
         DeleteAuthorResponse response = AuthorMapper.INSTANCE.deleteAuthorResponseToAuthor(findId);
@@ -66,5 +65,10 @@ public class AuthorServiceImpl implements AuthorService {
             result.add(dto);
         }
         return result;
+    }
+
+    @Override
+    public Author findById(int id) {
+        return authorRepository.findById(id).orElseThrow(()-> new BusinessException("id bulunamadı"));
     }
 }

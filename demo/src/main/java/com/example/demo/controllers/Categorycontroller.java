@@ -2,7 +2,6 @@ package com.example.demo.controllers;
 
 import com.example.demo.services.abstracts.CategoryService;
 import com.example.demo.services.dtos.requests.category.AddCategoryRequest;
-import com.example.demo.services.dtos.requests.category.DeleteCategoryRequest;
 import com.example.demo.services.dtos.requests.category.UpdateCategoryRequest;
 import com.example.demo.services.dtos.responses.category.AddCategoryResponse;
 import com.example.demo.services.dtos.responses.category.DeleteCategoryResponse;
@@ -36,9 +35,9 @@ public class Categorycontroller {
         return categoryService.update(request);
     }
 
-    @DeleteMapping("/delete")
-    private DeleteCategoryResponse delete(@RequestBody DeleteCategoryRequest request){
-        return categoryService.delete(request);
+    @DeleteMapping("/delete/{id}")
+    private DeleteCategoryResponse delete(@PathVariable("id") int id){
+        return categoryService.delete(id);
     }
 
     @GetMapping("/getAll")

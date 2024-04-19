@@ -4,12 +4,11 @@ import com.example.demo.core.utils.exceptions.types.BusinessException;
 import com.example.demo.entities.Book;
 import com.example.demo.entities.Borrow;
 import com.example.demo.entities.User;
-import com.example.demo.repositories.BookRepository;
 import com.example.demo.repositories.BorrowRepository;
-import com.example.demo.repositories.UserRepository;
+import com.example.demo.services.abstracts.BookService;
 import com.example.demo.services.abstracts.BorrowService;
+import com.example.demo.services.abstracts.UserService;
 import com.example.demo.services.dtos.requests.borrow.AddBorrowRequest;
-import com.example.demo.services.dtos.requests.borrow.DeleteBorrowRequest;
 import com.example.demo.services.dtos.requests.borrow.UpdateBorrowRequest;
 import com.example.demo.services.dtos.responses.borrow.AddBorrowResponse;
 import com.example.demo.services.dtos.responses.borrow.DeleteBorrowResponse;
@@ -20,22 +19,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BorrowServiceImpl implements BorrowService {
 
     private BorrowRepository borrowRepository;
 
-    private UserRepository userRepository;
+    private UserService userService;
 
-    private BookRepository bookRepository;
+    private BookService bookService;
 
-
-    public BorrowServiceImpl(BorrowRepository borrowRepository, UserRepository userRepository, BookRepository bookRepository) {
+    public BorrowServiceImpl(BorrowRepository borrowRepository, UserService userService, BookService bookService) {
         this.borrowRepository = borrowRepository;
-        this.userRepository = userRepository;
-        this.bookRepository = bookRepository;
+        this.userService = userService;
+        this.bookService = bookService;
     }
 
     @Override
@@ -43,19 +40,15 @@ public class BorrowServiceImpl implements BorrowService {
         Borrow borrow = BorrowMapper.INSTANCE.borrowToAddBorrowRequest(request);
 
         int bookId = request.getBookId();
-        Book book = bookRepository.findById(bookId).orElseThrow(()->new BusinessException("id bulunamadı."));
+        Book book = bookService.findById(bookId);
 
         String tcNum = request.getTcNum();
-        User user = userRepository.findByTcNum(tcNum);
-        if(user == null){
-            throw new BusinessException("Tc numarası bulunamadı.");
-        }
+        User user = userService.findByTcNum(tcNum);
 
         borrow.setBook(book);
         borrow.setUser(user);
+
         Borrow saved = borrowRepository.save(borrow);
-
-
         AddBorrowResponse response = BorrowMapper.INSTANCE.addBorrowResponse(saved);
         return response;
     }
@@ -69,8 +62,8 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public DeleteBorrowResponse delete(DeleteBorrowRequest request) {
-        Borrow borrowId = borrowRepository.findById(request.getId()).orElseThrow(()->new BusinessException("id bulunamadı."));
+    public DeleteBorrowResponse delete(int id) {
+        Borrow borrowId = borrowRepository.findById(id).orElseThrow(()->new BusinessException("id bulunamadı."));
         borrowRepository.delete(borrowId);
 
         DeleteBorrowResponse response = BorrowMapper.INSTANCE.deleteBorrowResponseToBorrow(borrowId);
@@ -90,5 +83,13 @@ public class BorrowServiceImpl implements BorrowService {
 
         return result;
     }
+
+    @Override
+    public Borrow findById(int id) {
+
+        return borrowRepository.findById(id).orElseThrow(()-> new BusinessException("id bulunamadı"));
+
+    }
+
 
 }
