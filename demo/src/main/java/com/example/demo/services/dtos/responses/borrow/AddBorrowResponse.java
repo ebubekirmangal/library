@@ -23,6 +23,6 @@ public class AddBorrowResponse {
     private String bookName;
 
     private LocalDate pickUpDate;
-    private Double totalFee;
+
     private Boolean isBorrow;
 }

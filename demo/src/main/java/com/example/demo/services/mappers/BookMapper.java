@@ -24,7 +24,7 @@ public interface BookMapper {
     @Mapping(target = "authorLastName",source = "author.lastName")
     @Mapping(target = "authorId" ,source = "author.id")
     @Mapping(target = "categoryName" , source = "category.name")
-    AddBookResponse addBookResponsetoBook(Book book);
+    AddBookResponse addBookResponseToBook(Book book);
 
     @Mapping(target = "author.id" ,source = "authorId")
     @Mapping(target = "category.id",source = "categoryId")

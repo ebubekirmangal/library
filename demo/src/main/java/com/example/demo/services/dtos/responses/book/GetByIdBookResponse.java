@@ -22,7 +22,7 @@ public class GetByIdBookResponse {
 
     private String categoryName;
 
-    private Boolean isBorrow;
+
 
     private int authorId;
 

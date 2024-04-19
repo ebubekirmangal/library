@@ -4,6 +4,7 @@ import com.example.demo.core.utils.exceptions.types.BusinessException;
 import com.example.demo.entities.Book;
 import com.example.demo.entities.Borrow;
 import com.example.demo.entities.Delivery;
+import com.example.demo.repositories.BookRepository;
 import com.example.demo.repositories.BorrowRepository;
 import com.example.demo.repositories.DeliveryRepository;
 import com.example.demo.services.abstracts.BorrowService;
@@ -31,10 +32,12 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     private BorrowService borrowService;
 
+    private BookRepository bookRepository;
 
-    public DeliveryServiceImpl(DeliveryRepository deliveryRepository, BorrowService borrowService) {
+    public DeliveryServiceImpl(DeliveryRepository deliveryRepository, BorrowService borrowService, BookRepository bookRepository) {
         this.deliveryRepository = deliveryRepository;
         this.borrowService = borrowService;
+        this.bookRepository = bookRepository;
     }
 
     public AddDeliveryResponse add(AddDeliveryRequest request) {
@@ -42,10 +45,15 @@ public class DeliveryServiceImpl implements DeliveryService {
 
         int borrowId = request.getBorrowId();
         Borrow borrow = borrowService.findById(borrowId);
+
+
         borrow.setDeadLine(borrow.getPickUpDate().plusDays(21));
-        borrow.getBook().setIsBorrow(false);
         delivery.setBorrow(borrow);
         delivery.setPenaltyFee(5);
+
+        int bookId = delivery.getBorrow().getBook().getId();
+        Book book = bookRepository.findById(bookId).orElseThrow(()-> new BusinessException("id yok."));//TODO:dönmüyor
+        book.setIsBorrow(false);
         dateController(borrow,delivery);
         calculator(borrow,delivery);
         try {

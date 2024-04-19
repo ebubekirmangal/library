@@ -42,12 +42,13 @@ public class BorrowServiceImpl implements BorrowService {
 
         String tcNum = request.getTcNum();
         User user = userService.findByTcNum(tcNum);
-        borrow.getBook().setIsBorrow(true);
+        book.setIsBorrow(true);
         borrow.setBook(book);
         borrow.setUser(user);
         try {
             Borrow saved = borrowRepository.save(borrow);
             AddBorrowResponse response = BorrowMapper.INSTANCE.addBorrowResponse(saved);
+            System.out.println(response.getIsBorrow());
             return response;
         } catch (DataIntegrityViolationException e) {
             throw new BusinessException("Bu kitap zaten ödünç alınmış.");

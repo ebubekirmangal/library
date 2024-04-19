@@ -4,14 +4,14 @@ import com.example.demo.core.utils.exceptions.types.BusinessException;
 import com.example.demo.entities.Author;
 import com.example.demo.entities.Book;
 import com.example.demo.entities.Category;
-import com.example.demo.services.abstracts.AuthorService;
-import com.example.demo.services.abstracts.CategoryService;
-import com.example.demo.services.mappers.BookMapper;
 import com.example.demo.repositories.BookRepository;
+import com.example.demo.services.abstracts.AuthorService;
 import com.example.demo.services.abstracts.BookService;
+import com.example.demo.services.abstracts.CategoryService;
 import com.example.demo.services.dtos.requests.book.AddBookRequest;
 import com.example.demo.services.dtos.requests.book.UpdateBookRequest;
 import com.example.demo.services.dtos.responses.book.*;
+import com.example.demo.services.mappers.BookMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class BookServiceImpl implements BookService {
 
         Book saved = bookRepository.save(book);
 
-        AddBookResponse response = BookMapper.INSTANCE.addBookResponsetoBook(saved);
+        AddBookResponse response = BookMapper.INSTANCE.addBookResponseToBook(saved);
 
         return response;
     }

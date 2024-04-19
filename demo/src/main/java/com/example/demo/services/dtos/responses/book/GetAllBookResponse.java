@@ -21,7 +21,6 @@ public class GetAllBookResponse {
 
     private String categoryName;
 
-    private Boolean isBorrow;
 
     private int authorId;
 
