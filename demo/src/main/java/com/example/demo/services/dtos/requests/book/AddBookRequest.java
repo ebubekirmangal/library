@@ -23,6 +23,4 @@ public class AddBookRequest {
     private int authorId;
 
     private int categoryId;
-
-    private Boolean isBorrow;
 }

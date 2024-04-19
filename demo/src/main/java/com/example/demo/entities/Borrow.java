@@ -27,7 +27,6 @@ public class Borrow {
     @Column(name = "dead_line")
     private LocalDate deadLine;
 
-
     @OneToOne
     @JoinColumn(name = "book_id")
     private Book book;

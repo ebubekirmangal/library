@@ -44,13 +44,12 @@ public class BookServiceImpl implements BookService {
         Author author = authorService.findById(authorId);
 
         book.setCategory(category);
+
         book.setAuthor(author);
 
         Book saved = bookRepository.save(book);
 
         AddBookResponse response = BookMapper.INSTANCE.addBookResponsetoBook(saved);
-
-
 
         return response;
     }
@@ -83,6 +82,7 @@ public class BookServiceImpl implements BookService {
 
        for(Book book:books){
            GetAllBookResponse dto = BookMapper.INSTANCE.getAllBookResponseToBook(book);
+           //dto.setIsBorrow(book.getIsBorrow());
            result.add(dto);
        }
 

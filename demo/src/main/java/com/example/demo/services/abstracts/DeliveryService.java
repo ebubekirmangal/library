@@ -17,4 +17,7 @@ public interface DeliveryService {
 
     DeleteDeliveryResponse delete(int id);
 
+    void calculator(Borrow borrow,Delivery delivery);
+    void dateController(Borrow borrow,Delivery delivery);
+
 }

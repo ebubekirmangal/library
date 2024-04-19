@@ -30,7 +30,7 @@ public class Book {
     private int numberOfPage;
 
     @Column(name ="is_borrow")
-    private Boolean isBorrow = false;
+    private Boolean isBorrow ;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

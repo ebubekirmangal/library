@@ -17,12 +17,6 @@ public class AddDeliveryResponse {
 
     private String tcNum;
 
-    private String firstName;
-
-    private String lastName;
-
-    private String bookName;
-
     private LocalDate deadLine;
 
     private long delayDate;
@@ -35,5 +29,6 @@ public class AddDeliveryResponse {
 
     private String message;
 
+    private Boolean isBorrow;
 
 }

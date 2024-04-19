@@ -25,7 +25,6 @@ public class GetAllBookResponse {
 
     private int authorId;
 
-
     private String authorFirstName;
 
     private String authorLastName;
