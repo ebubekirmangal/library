@@ -11,6 +11,7 @@ import com.example.demo.services.dtos.requests.user.AddUserRequest;
 import com.example.demo.services.dtos.requests.user.UpdateUserRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,39 +68,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public GetByTcNumUserResponse getByTcNum(String tcNum) {
-
         User user = userRepository.findByTcNum(tcNum);
-        if(tcNum.equals("")){
+
+        if (tcNum.equals("")) {
             throw new BusinessException("Tc numarası bulunamıyor.");
         }
 
-        List<Delivery> deliveries = user.getDeliveries();
-        if (!deliveries.isEmpty()) {
-            Delivery lastDelivery = deliveries.get(deliveries.size() - 1);
-            Double totalFee = lastDelivery.getTotalFee();
-            if(){ //TODO:ödün alınmış ama teslim edilmemiş
-                //TODO:
-            }else{
-                if (totalFee == 0){
-                    //TODO action true
-                }else{
-                    //TODO action false
-                }
-            }
-
-
-
-        } else {
-          //TODO: actio
-        }
-
+        updateIsActionTake(user);
 
         User saved = userRepository.save(user);
 
-        GetByTcNumUserResponse response = UserMapper.INSTANCE.getByTcNumUserResponseToUser(saved);
-        return response;
+        return UserMapper.INSTANCE.getByTcNumUserResponseToUser(saved);
     }
 
+    private void updateIsActionTake(User user) {
+        List<Delivery> deliveries = user.getDeliveries();
+        Delivery lastDelivery = deliveries.isEmpty() ? null : deliveries.get(deliveries.size() - 1);
+
+        if (lastDelivery == null || lastDelivery.getTotalFee() == 0 ||
+                (lastDelivery.getBorrow() != null && lastDelivery.getBorrow().getPickUpDate().plusDays(21).isBefore(LocalDate.now()))) {
+            user.setIsActionTake(true);
+        } else {
+            user.setIsActionTake(false);
+        }
+    }
     private User tcIsPresentTcNum(String request){
         User userId = userRepository.findByTcNum(request);
         if(userId == null){
