@@ -7,6 +7,7 @@ import com.example.demo.entities.Delivery;
 import com.example.demo.repositories.BookRepository;
 import com.example.demo.repositories.BorrowRepository;
 import com.example.demo.repositories.DeliveryRepository;
+import com.example.demo.services.abstracts.BookService;
 import com.example.demo.services.abstracts.BorrowService;
 import com.example.demo.services.abstracts.DeliveryService;
 import com.example.demo.services.dtos.requests.delivery.AddDeliveryRequest;
@@ -32,12 +33,9 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     private BorrowService borrowService;
 
-    private BookRepository bookRepository;
-
-    public DeliveryServiceImpl(DeliveryRepository deliveryRepository, BorrowService borrowService, BookRepository bookRepository) {
+    public DeliveryServiceImpl(DeliveryRepository deliveryRepository, BorrowService borrowService) {
         this.deliveryRepository = deliveryRepository;
         this.borrowService = borrowService;
-        this.bookRepository = bookRepository;
     }
 
     public AddDeliveryResponse add(AddDeliveryRequest request) {
@@ -46,14 +44,15 @@ public class DeliveryServiceImpl implements DeliveryService {
         int borrowId = request.getBorrowId();
         Borrow borrow = borrowService.findById(borrowId);
 
-
         borrow.setDeadLine(borrow.getPickUpDate().plusDays(21));
         delivery.setBorrow(borrow);
         delivery.setPenaltyFee(5);
-
-        int bookId = delivery.getBorrow().getBook().getId();
-        Book book = bookRepository.findById(bookId).orElseThrow(()-> new BusinessException("id yok."));//TODO:dönmüyor
-        book.setIsBorrow(false);
+        Book book = borrow.getBook();
+        delivery.setBook(book);
+        if (book != null) {
+            book.setIsBorrow(false);
+        }else
+            throw new BusinessException("book nesnesi null dönüyor");
         dateController(borrow,delivery);
         calculator(borrow,delivery);
         try {
@@ -64,8 +63,6 @@ public class DeliveryServiceImpl implements DeliveryService {
             throw new BusinessException("Bu kitap zaten teslim edilmiştir.");
         }
     }
-
-
     @Override
     public List<GetAllDeliveryResponse> getAll() {
         List<Delivery> deliveries = deliveryRepository.findAll();
@@ -75,10 +72,8 @@ public class DeliveryServiceImpl implements DeliveryService {
             GetAllDeliveryResponse dto = DeliveryMapper.INSTANCE.getAllDeliveryResponseToDelivery(delivery);
             result.add(dto);
         }
-
         return result;
     }
-
     @Override
     public DeleteDeliveryResponse delete(int id) {
         Delivery delivery = deliveryRepository.findById(id).orElseThrow(()->new BusinessException("Id bulunamadı."));
@@ -110,5 +105,4 @@ public class DeliveryServiceImpl implements DeliveryService {
             throw new BusinessException("Ödünç alma tarihi, teslim etme tarihinden büyük olamaz.");
         }
     }
-
 }

@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-//TODO: 1/userda delivery işlemi yapıldıktan sonra userdaki book id kaybolcak 2/ isBorrow otomatik değişcek.
+//TODO: 1/userda delivery işlemi yapıldıktan sonra userdaki book id kaybolcak
     private UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
@@ -27,10 +27,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public AddUserResponse add(AddUserRequest request) {
         User user = UserMapper.INSTANCE.userToAddUserRequest(request);
+        User existingUser = userRepository.findByTcNum(user.getTcNum());
+        if (existingUser != null) {
+            throw new BusinessException("Aynı TC kimlik numarasına sahip kullanıcı zaten var: " + user.getTcNum());
+        }
         User saved = userRepository.save(user);
-
         AddUserResponse response = UserMapper.INSTANCE.addUserResponseToUser(saved);
-
         return response;
     }
 
