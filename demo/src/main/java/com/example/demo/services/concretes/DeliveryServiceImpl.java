@@ -32,12 +32,10 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     private BorrowService borrowService;
 
-    private BookRepository bookRepository;
 
-    public DeliveryServiceImpl(DeliveryRepository deliveryRepository, BorrowService borrowService, BookRepository bookRepository) {
+    public DeliveryServiceImpl(DeliveryRepository deliveryRepository, BorrowService borrowService) {
         this.deliveryRepository = deliveryRepository;
         this.borrowService = borrowService;
-        this.bookRepository = bookRepository;
     }
 
     public AddDeliveryResponse add(AddDeliveryRequest request) {
@@ -51,9 +49,10 @@ public class DeliveryServiceImpl implements DeliveryService {
         delivery.setBorrow(borrow);
         delivery.setPenaltyFee(5);
 
-        int bookId = delivery.getBorrow().getBook().getId();
-        Book book = bookRepository.findById(bookId).orElseThrow(()-> new BusinessException("id yok."));//TODO:dönmüyor
+        Book book = borrow.getBook();
         book.setIsBorrow(false);
+        delivery.setBook(book);
+
         dateController(borrow,delivery);
         calculator(borrow,delivery);
         try {

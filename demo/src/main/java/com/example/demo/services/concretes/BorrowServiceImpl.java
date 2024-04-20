@@ -45,13 +45,15 @@ public class BorrowServiceImpl implements BorrowService {
         book.setIsBorrow(true);
         borrow.setBook(book);
         borrow.setUser(user);
+
+
         try {
             Borrow saved = borrowRepository.save(borrow);
             AddBorrowResponse response = BorrowMapper.INSTANCE.addBorrowResponse(saved);
             System.out.println(response.getIsBorrow());
             return response;
         } catch (DataIntegrityViolationException e) {
-            throw new BusinessException("Bu kitap zaten ödünç alınmış.");
+            throw new BusinessException("Bu kitap zaten ödünç alınmış.");//TODO: farklı id yada aynı id delivery işlemini yaptıktan sonra borrow işlemi yapamıyor. YAPMASINI SAĞLA
         }
     }
     public UpdateBorrowResponse update(UpdateBorrowRequest request) {

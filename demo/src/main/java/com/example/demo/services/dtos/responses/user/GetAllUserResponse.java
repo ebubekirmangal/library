@@ -24,6 +24,6 @@ public class GetAllUserResponse {
 
     private String lastName;
 
-    private List<Integer> bookId;
+    private List<Integer> bookId;//TODO: kütüphaneden bu  zamana kadar alınan kitaplar
 
 }

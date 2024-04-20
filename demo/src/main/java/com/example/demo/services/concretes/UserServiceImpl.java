@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-//TODO: 1/userda delivery işlemi yapıldıktan sonra userdaki book id kaybolcak 2/ isBorrow otomatik değişcek.
+//TODO: 1/userdaki bookıds kısmını buzamana kadar alınan kitaplar diye döndür 2/GetByıd de response olarak kitap ismi,deadLine, ve kitapdurumu:delivery işlemi yapılmalı mı?
     private UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
@@ -25,34 +25,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public AddUserResponse add(AddUserRequest request) {
-        User user = UserMapper.INSTANCE.userToAddUserRequest(request);
+    public AddUserResponse add(AddUserRequest request) {//TODO: tcNum kontrol yap
+        User user = UserMapper.INSTANCE.userToAddUserRequest(request);//TODO: isborrowu enuma çevir book status kontrolü yapılsın, gtbyIdUserResponseta statüs daha önceden alınan kitaplar listesinde döndürülsün
         User saved = userRepository.save(user);
 
         AddUserResponse response = UserMapper.INSTANCE.addUserResponseToUser(saved);
 
         return response;
     }
-
     @Override
     public UpdateUserResponse update(UpdateUserRequest request) {
         User user = UserMapper.INSTANCE.userToUpdateUserRequest(request);
-
         User updated = userRepository.save(user);
 
         UpdateUserResponse response = UserMapper.INSTANCE.updateUserResponseToUser(updated);
-
         return response;
     }
-
     @Override
     public DeleteUserResponse delete(String tcNum) {
         User user = tcIsPresentTcNum(tcNum);
         userRepository.delete(user);
-       DeleteUserResponse response = UserMapper.INSTANCE.deleteUserResponseToUser(user);
+        DeleteUserResponse response = UserMapper.INSTANCE.deleteUserResponseToUser(user);
         return response;
     }
-
     @Override
     public List<GetAllUserResponse> getAll() {
         List<User> users = userRepository.findAll();
@@ -65,7 +60,6 @@ public class UserServiceImpl implements UserService {
 
         return result;
     }
-
     @Override
     public GetByTcNumUserResponse getByTcNum(String tcNum) {
         User user = userRepository.findByTcNum(tcNum);
@@ -80,9 +74,8 @@ public class UserServiceImpl implements UserService {
 
         return UserMapper.INSTANCE.getByTcNumUserResponseToUser(saved);
     }
-
     private void updateIsActionTake(User user) {
-        List<Delivery> deliveries = user.getDeliveries();
+        List<Delivery> deliveries = user.getDeliveries();//TODO:TotalFee ye göre aksiyon almasını sağla
         Delivery lastDelivery = deliveries.isEmpty() ? null : deliveries.get(deliveries.size() - 1);
 
         if (lastDelivery == null || lastDelivery.getTotalFee() == 0 ||
@@ -99,14 +92,11 @@ public class UserServiceImpl implements UserService {
         }
         return userId;
     }
-
     @Override
     public User findByTcNum(String tcNum) {
         if(tcNum.equals("")){
             throw  new BusinessException("Tc numarası bulunamadı");
         }
-
         return userRepository.findByTcNum(tcNum);
-
     }
 }

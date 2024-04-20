@@ -22,4 +22,5 @@ public class GetAllBorrowResponse {
     private String bookName;
 
     private LocalDate pickUpDate;
+
 }
