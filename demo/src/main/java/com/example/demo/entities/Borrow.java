@@ -30,6 +30,7 @@ public class Borrow {
     @OneToOne
     @JoinColumn(name = "book_id")
     private Book book;
+
     @ManyToOne
     @JoinColumn(name = "tc_num")
     private User user;

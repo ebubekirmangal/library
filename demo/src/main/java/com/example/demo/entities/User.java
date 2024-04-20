@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class User {
     @Id
-    @Column(name = "tc_num")
+    @Column(name = "tc_num",unique = true)
     private String tcNum;
 
     @Enumerated(EnumType.STRING)
