@@ -1,8 +1,10 @@
 package com.example.demo.services.concretes;
 
 import com.example.demo.core.utils.exceptions.types.BusinessException;
+import com.example.demo.entities.Borrow;
 import com.example.demo.entities.Delivery;
 import com.example.demo.entities.User;
+import com.example.demo.repositories.DeliveryRepository;
 import com.example.demo.services.dtos.responses.user.*;
 import com.example.demo.services.mappers.UserMapper;
 import com.example.demo.repositories.UserRepository;
@@ -13,20 +15,32 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
-//TODO: 1/userdaki bookıds kısmını buzamana kadar alınan kitaplar diye döndür 2/GetByıd de response olarak kitap ismi,deadLine, ve kitapdurumu:delivery işlemi yapılmalı mı?
     private UserRepository userRepository;
+
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
+
     }
 
     @Override
-    public AddUserResponse add(AddUserRequest request) {//TODO: tcNum kontrol yap
-        User user = UserMapper.INSTANCE.userToAddUserRequest(request);//TODO: isborrowu enuma çevir book status kontrolü yapılsın, gtbyIdUserResponseta statüs daha önceden alınan kitaplar listesinde döndürülsün
+    public AddUserResponse add(AddUserRequest request) {//TODO:isAction take aktif hale getir. totalFee ve deadline ekle
+        List<User> users = userRepository.findAll();
+
+        for(User user:users){
+            if(request.getTcNum().equals(user.getTcNum())){
+                throw new BusinessException("Aynı Tc numarası ile zaten giriş yapılmıştır.");
+            }
+        }
+
+        User user = UserMapper.INSTANCE.userToAddUserRequest(request);
+
         User saved = userRepository.save(user);
 
         AddUserResponse response = UserMapper.INSTANCE.addUserResponseToUser(saved);
@@ -75,20 +89,40 @@ public class UserServiceImpl implements UserService {
         return UserMapper.INSTANCE.getByTcNumUserResponseToUser(saved);
     }
     private void updateIsActionTake(User user) {
-        List<Delivery> deliveries = user.getDeliveries();//TODO:TotalFee ye göre aksiyon almasını sağla
-        Delivery lastDelivery = deliveries.isEmpty() ? null : deliveries.get(deliveries.size() - 1);
+        // Eğer kullanıcıya ait teslimatlar varsa
+        if (user.getDeliveries() != null && !user.getDeliveries().isEmpty()) {
+            // En son teslimatı bul
+            Delivery lastDelivery = user.getDeliveries().stream()
+                    .max(Comparator.comparingLong(Delivery::getId))
+                    .orElseThrow(() -> new BusinessException("Teslim işlemi hiç yapılmamış."));
 
-        if (lastDelivery == null || lastDelivery.getTotalFee() == 0 ||
-                (lastDelivery.getBorrow() != null && lastDelivery.getBorrow().getPickUpDate().plusDays(21).isBefore(LocalDate.now()))) {
-            user.setIsActionTake(true);
+            // Son teslimatın toplam ücreti 0'dan farklı ise isActionTake'i false yap
+            user.setIsActionTake(lastDelivery.getTotalFee() == 0);
         } else {
-            user.setIsActionTake(false);
+            List<Borrow> borrows = user.getBorrows();
+            // Eğer kullanıcıya ait borçlar varsa
+            if (borrows != null && !borrows.isEmpty()) {
+                // Her bir borç için kontrol yap
+                for (Borrow borrow : borrows) {
+                    // Borcun son teslim tarihi bugünden önceyse isActionTake'i true yap
+                    if (borrow.getDeadLine().isBefore(LocalDate.now())) {
+                        user.setIsActionTake(true);
+                        // Herhangi bir borç günü geçtiyse döngüyü sonlandır
+                        return;
+                    }
+                }
+                // Tüm borçlar günü geçmemişse isActionTake'i false yap
+                user.setIsActionTake(false);
+            } else {
+                // Kullanıcıya ait ne teslimat ne de borç varsa isActionTake'i true yap
+                user.setIsActionTake(true);
+            }
         }
     }
     private User tcIsPresentTcNum(String request){
         User userId = userRepository.findByTcNum(request);
         if(userId == null){
-            throw new BusinessException("Tc numarası bulunamadı bulunamadı.");
+            throw new BusinessException("Tc numarası bulunamadı.");
         }
         return userId;
     }

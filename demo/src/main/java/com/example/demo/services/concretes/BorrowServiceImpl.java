@@ -1,9 +1,7 @@
 package com.example.demo.services.concretes;
 
 import com.example.demo.core.utils.exceptions.types.BusinessException;
-import com.example.demo.entities.Book;
-import com.example.demo.entities.Borrow;
-import com.example.demo.entities.User;
+import com.example.demo.entities.*;
 import com.example.demo.repositories.BorrowRepository;
 import com.example.demo.services.abstracts.BookService;
 import com.example.demo.services.abstracts.BorrowService;
@@ -35,6 +33,7 @@ public class BorrowServiceImpl implements BorrowService {
     }
     @Override
     public AddBorrowResponse add(AddBorrowRequest request) {
+
         Borrow borrow = BorrowMapper.INSTANCE.borrowToAddBorrowRequest(request);
 
         int bookId = request.getBookId();
@@ -42,19 +41,18 @@ public class BorrowServiceImpl implements BorrowService {
 
         String tcNum = request.getTcNum();
         User user = userService.findByTcNum(tcNum);
-        book.setIsBorrow(true);
+
         borrow.setBook(book);
         borrow.setUser(user);
 
-
-        try {
+            if(user.getIsActionTake() == false){
+            throw new BusinessException("Kullanıcının borcu gözükmektedir ya da Ödünç alınan kitap teslim edilmemiştir.");
+        } else if(book.getBookStatus() == BookStatus.AtTheVisitor)
+                throw new BusinessException("Kitap zaten kullanımda");
             Borrow saved = borrowRepository.save(borrow);
             AddBorrowResponse response = BorrowMapper.INSTANCE.addBorrowResponse(saved);
-            System.out.println(response.getIsBorrow());
             return response;
-        } catch (DataIntegrityViolationException e) {
-            throw new BusinessException("Bu kitap zaten ödünç alınmış.");//TODO: farklı id yada aynı id delivery işlemini yaptıktan sonra borrow işlemi yapamıyor. YAPMASINI SAĞLA
-        }
+
     }
     public UpdateBorrowResponse update(UpdateBorrowRequest request) {
         Borrow borrow = BorrowMapper.INSTANCE.borrowToUpdateBorrowRequest(request);

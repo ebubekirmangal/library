@@ -23,5 +23,4 @@ public class UpdateUserResponse {
 
     private String lastName;
 
-    private List<Integer> bookId;
 }

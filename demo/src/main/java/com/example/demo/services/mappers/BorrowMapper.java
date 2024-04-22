@@ -23,7 +23,7 @@ public interface BorrowMapper {
     @Mapping(target = "firstName", source = "user.firstName")
     @Mapping(target = "lastName", source = "user.lastName")
     @Mapping(target = "bookName",source = "book.name")
-    @Mapping(target = "isBorrow",source = "book.isBorrow")
+    @Mapping(target = "bookStatus",source = "book.bookStatus")
     AddBorrowResponse addBorrowResponse(Borrow borrow);
     @Mapping(target = "user.tcNum", source = "tcNum")
     @Mapping(target = "book.id", source = "bookId")

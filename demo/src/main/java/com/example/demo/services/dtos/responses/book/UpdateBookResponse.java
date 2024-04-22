@@ -21,8 +21,6 @@ public class UpdateBookResponse {
 
     private String categoryName;
 
-  //  private Boolean isBorrow;
-
     private int authorId;
 
     private String authorFirstName;

@@ -27,7 +27,7 @@ public class Borrow {
     @Column(name = "dead_line")
     private LocalDate deadLine;
 
-    @OneToOne
+    @OneToOne//TODO: ManyToMany yapılcak
     @JoinColumn(name = "book_id")
     private Book book;
 

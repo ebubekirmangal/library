@@ -3,6 +3,7 @@ package com.example.demo.services.concretes;
 import com.example.demo.core.utils.exceptions.types.BusinessException;
 import com.example.demo.entities.Author;
 import com.example.demo.entities.Book;
+import com.example.demo.entities.BookStatus;
 import com.example.demo.entities.Category;
 import com.example.demo.repositories.BookRepository;
 import com.example.demo.services.abstracts.AuthorService;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookService {
-
+//Todo: kitap eklemesi yapıldığında book status girişide yapılsın
     private BookRepository bookRepository;
 
     private CategoryService categoryService;
@@ -46,7 +47,7 @@ public class BookServiceImpl implements BookService {
         book.setCategory(category);
 
         book.setAuthor(author);
-
+        book.setBookStatus(BookStatus.OnTheShelf);
         Book saved = bookRepository.save(book);
 
         AddBookResponse response = BookMapper.INSTANCE.addBookResponseToBook(saved);

@@ -2,6 +2,7 @@ package com.example.demo.services.concretes;
 
 import com.example.demo.core.utils.exceptions.types.BusinessException;
 import com.example.demo.entities.Book;
+import com.example.demo.entities.BookStatus;
 import com.example.demo.entities.Borrow;
 import com.example.demo.entities.Delivery;
 import com.example.demo.repositories.BookRepository;
@@ -49,9 +50,9 @@ public class DeliveryServiceImpl implements DeliveryService {
         delivery.setBorrow(borrow);
         delivery.setPenaltyFee(5);
 
-        Book book = borrow.getBook();
-        book.setIsBorrow(false);
-        delivery.setBook(book);
+//        Book book = borrow.getBook();
+//        book.setBookStatus(BookStatus.OnTheShelf);
+//        delivery.setBook(book);
 
         dateController(borrow,delivery);
         calculator(borrow,delivery);

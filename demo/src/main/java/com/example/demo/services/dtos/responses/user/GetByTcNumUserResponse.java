@@ -22,7 +22,7 @@ public class GetByTcNumUserResponse {
 
     private String lastName;
 
-    private List<Integer> bookId;
+    private List<ListBooksPurshesedSoFar> booksPurshasedSoFar;
 
     private Boolean isActionTake;
 }

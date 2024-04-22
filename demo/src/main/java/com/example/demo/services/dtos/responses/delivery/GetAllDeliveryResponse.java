@@ -35,5 +35,4 @@ public class GetAllDeliveryResponse {
 
     private String message;
 
-
 }

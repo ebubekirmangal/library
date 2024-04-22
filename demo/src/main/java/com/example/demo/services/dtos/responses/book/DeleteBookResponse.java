@@ -1,5 +1,6 @@
 package com.example.demo.services.dtos.responses.book;
 
+import com.example.demo.entities.BookStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ public class DeleteBookResponse {
 
     private String categoryName;
 
-    private Boolean isBorrow;
+    private BookStatus bookStatus;
 
     private int authorId;
 

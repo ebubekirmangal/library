@@ -23,5 +23,4 @@ public class DeleteUserResponse {
 
     private String lastName;
 
-    private List<Integer> bookId;
 }

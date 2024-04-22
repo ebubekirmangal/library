@@ -23,7 +23,7 @@ public interface DeliveryMapper {
     @Mapping(target = "tcNum", source = "borrow.user.tcNum")
     @Mapping(target = "deadLine", source = "borrow.deadLine")
     @Mapping(target = "pickUpDate",source = "borrow.pickUpDate")
-    @Mapping(target = "isBorrow",source = "book.isBorrow")
+    @Mapping(target = "bookStatus",source = "book.bookStatus")
     @Mapping(target = "delayDate", source = "delayDay")
     @Mapping(target = "totalFee", source = "totalFee")
     @Mapping(target = "message", source = "message")

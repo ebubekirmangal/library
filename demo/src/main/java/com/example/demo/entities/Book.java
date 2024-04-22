@@ -29,8 +29,8 @@ public class Book {
     @Column(name = "number_of_page")
     private int numberOfPage;
 
-    @Column(name ="is_borrow")
-    private Boolean isBorrow ;
+    @Column(name ="book_status")
+    private BookStatus bookStatus ;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

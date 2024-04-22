@@ -1,7 +1,6 @@
 package com.example.demo.services.mappers;
 
-import com.example.demo.entities.Borrow;
-import com.example.demo.entities.User;
+import com.example.demo.entities.*;
 import com.example.demo.services.dtos.requests.user.AddUserRequest;
 import com.example.demo.services.dtos.requests.user.UpdateUserRequest;
 import com.example.demo.services.dtos.responses.user.*;
@@ -22,20 +21,33 @@ public interface UserMapper {
     AddUserResponse addUserResponseToUser(User user);
 
     User userToUpdateUserRequest(UpdateUserRequest request);
-    @Mapping(target = "bookId",source = "borrows")
+
     UpdateUserResponse updateUserResponseToUser(User user);
-    @Mapping(target = "bookId",source = "borrows")
+
     DeleteUserResponse deleteUserResponseToUser(User user);
-    @Mapping(target = "bookId",source = "borrows")
+    @Mapping(target = "booksPurshasedSoFar",source = "borrows")
     GetAllUserResponse getAllUserResponseToUser(User user);
-    @Mapping(target = "bookId",source = "borrows")
+    @Mapping(target = "booksPurshasedSoFar",source = "borrows")
     GetByTcNumUserResponse getByTcNumUserResponseToUser(User user);
-    default List<Integer> mapBorrowsToBookId(List<Borrow> borrows) {
+
+    default List<ListBooksPurshesedSoFar> mapBorrowsToBookId(List<Borrow> borrows) {
         if (borrows == null) {
             return null;
         }
         return borrows.stream()
-                .map(borrow -> borrow.getId())
+                .map(borrow -> {
+                    ListBooksPurshesedSoFar dto = new ListBooksPurshesedSoFar();
+                    dto.setBookName(borrow.getBook().getName());
+                    if (borrow.getDelivery() != null){
+                        dto.setBookStatus(BookStatus.OnTheShelf);
+                        dto.setTotalFee(borrow.getDelivery().getTotalFee());
+                    } else {
+                        dto.setBookStatus(BookStatus.AtTheVisitor);
+                        dto.setDeadLine(borrow.getDeadLine());
+                        dto.setTotalFee(0.0);
+                    }
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 }

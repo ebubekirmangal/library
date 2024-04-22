@@ -23,6 +23,5 @@ public class UpdateBookRequest {
 
     private int categoryId;
 
-    //private Boolean isBorrow;
 
 }

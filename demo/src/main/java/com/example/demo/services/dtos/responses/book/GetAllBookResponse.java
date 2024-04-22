@@ -1,5 +1,6 @@
 package com.example.demo.services.dtos.responses.book;
 
+import com.example.demo.entities.BookStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,10 +22,11 @@ public class GetAllBookResponse {
 
     private String categoryName;
 
-
     private int authorId;
 
     private String authorFirstName;
 
     private String authorLastName;
+
+    private BookStatus bookStatus;
 }

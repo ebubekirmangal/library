@@ -1,5 +1,6 @@
 package com.example.demo.services.dtos.responses.delivery;
 
+import com.example.demo.entities.BookStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,6 @@ public class AddDeliveryResponse {
 
     private String message;
 
-    private Boolean isBorrow;
+    private BookStatus bookStatus;
 
 }
