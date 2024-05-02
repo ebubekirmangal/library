@@ -19,6 +19,8 @@ public interface BookService {
 
     GetByIdBookResponse getById(int id);
 
+    List<Book> findAllById(List<Integer> id);
+
     Book findById(int id);
 
 }

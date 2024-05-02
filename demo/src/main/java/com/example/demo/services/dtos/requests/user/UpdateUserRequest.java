@@ -1,12 +1,10 @@
 package com.example.demo.services.dtos.requests.user;
 
-import com.example.demo.entities.UserType;
+import com.example.demo.entities.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 
 @Getter
@@ -17,7 +15,7 @@ public class UpdateUserRequest {
 
     private String tcNum;
 
-    private UserType userType;
+    private UserRole userRole;
 
     private String firstName;
 

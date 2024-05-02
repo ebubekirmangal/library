@@ -16,6 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Borrow {
+    public Borrow(int id) {
+        this.id = id;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,9 +30,11 @@ public class Borrow {
     @Column(name = "dead_line")
     private LocalDate deadLine;
 
-    @OneToOne//TODO: ManyToMany yapılcak
-    @JoinColumn(name = "book_id")
-    private Book book;
+    @ManyToMany(fetch = FetchType.EAGER)//TODO:sorum olucak hocaya
+    @JoinTable(name = "book_borrow",
+    joinColumns = @JoinColumn(name = "borrow_id"),
+    inverseJoinColumns = @JoinColumn(name = "book_id"))
+    private List<Book> books;
 
     @ManyToOne
     @JoinColumn(name = "tc_num")

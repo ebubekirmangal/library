@@ -1,24 +1,19 @@
-package com.example.demo.services.dtos.responses.user;
+package com.example.demo.services.dtos.responses.delivery;
 
-import com.example.demo.entities.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class UpdateUserResponse {
+@AllArgsConstructor
+public class DeliveryUserInfo {
 
     private String tcNum;
-
-    private UserRole userRole;
 
     private String firstName;
 
     private String lastName;
-
 }

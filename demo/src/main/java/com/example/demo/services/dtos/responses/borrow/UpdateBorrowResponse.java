@@ -20,7 +20,7 @@ public class UpdateBorrowResponse {
 
     private String lastName;
 
-    private String bookName;
+    private List<String> bookNames;
 
     private LocalDate pickUpDate;
 }

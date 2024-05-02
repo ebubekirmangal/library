@@ -21,9 +21,8 @@ public class AddBorrowResponse {
 
     private String lastName;
 
-    private String bookName;
+    private List<String> bookNames;
 
     private LocalDate pickUpDate;
 
-    private BookStatus bookStatus;
 }

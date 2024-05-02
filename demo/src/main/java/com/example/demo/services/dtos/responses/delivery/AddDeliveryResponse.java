@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,9 +19,15 @@ public class AddDeliveryResponse {
 
     private String tcNum;
 
+    private String firstName;
+
+    private String lastName;
+
+    private List<String> bookNames;
+
     private LocalDate deadLine;
 
-    private long delayDate;
+    private int delayDate;
 
     private LocalDate receivedDate;
 
@@ -30,6 +37,8 @@ public class AddDeliveryResponse {
 
     private String message;
 
-    private BookStatus bookStatus;
+//    private  List<DeliveryUserInfo> userInfos;
+//
+//    private List<DeliveryBookInfo> deliveryInfos;
 
 }

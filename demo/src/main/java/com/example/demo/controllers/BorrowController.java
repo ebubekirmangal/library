@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/borrow")
+@RequestMapping("/control/borrow")
 public class BorrowController {
 
     private BorrowService borrowService;

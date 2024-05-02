@@ -31,12 +31,14 @@ public class Delivery {
     private long delayDay;
 
     private String message;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToOne
-    @JoinColumn(name = "book_id")
-    private Book book;
+    @ManyToMany
+    @JoinTable(name = "book_delivery",
+    joinColumns = @JoinColumn(name = "delivery_id"),
+    inverseJoinColumns = @JoinColumn(name ="book_id"))
+    private List<Book> books;
     @OneToOne
     @JoinColumn(name = "borrow_id")
     private Borrow borrow;

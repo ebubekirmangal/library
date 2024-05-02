@@ -1,6 +1,7 @@
 package com.example.demo.services.concretes;
 
 import com.example.demo.core.utils.exceptions.types.BusinessException;
+import com.example.demo.entities.Book;
 import com.example.demo.entities.Borrow;
 import com.example.demo.entities.Delivery;
 import com.example.demo.entities.User;
@@ -11,6 +12,8 @@ import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.abstracts.UserService;
 import com.example.demo.services.dtos.requests.user.AddUserRequest;
 import com.example.demo.services.dtos.requests.user.UpdateUserRequest;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,7 +33,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public AddUserResponse add(AddUserRequest request) {//TODO:isAction take aktif hale getir. totalFee ve deadline ekle
+    public AddUserResponse add(AddUserRequest request) {
         List<User> users = userRepository.findAll();
 
         for(User user:users){
@@ -89,34 +92,43 @@ public class UserServiceImpl implements UserService {
         return UserMapper.INSTANCE.getByTcNumUserResponseToUser(saved);
     }
     private void updateIsActionTake(User user) {
+        List<Borrow> borrows = user.getBorrows();
+        List<Delivery> deliveries = user.getDeliveries();
+
+
+
+
         // Eğer kullanıcıya ait teslimatlar varsa
-        if (user.getDeliveries() != null && !user.getDeliveries().isEmpty()) {
+        if (deliveries != null && !deliveries.isEmpty()) {
             // En son teslimatı bul
-            Delivery lastDelivery = user.getDeliveries().stream()
+            Delivery lastDelivery = deliveries.stream()
                     .max(Comparator.comparingLong(Delivery::getId))
                     .orElseThrow(() -> new BusinessException("Teslim işlemi hiç yapılmamış."));
-
             // Son teslimatın toplam ücreti 0'dan farklı ise isActionTake'i false yap
-            user.setIsActionTake(lastDelivery.getTotalFee() == 0);
-        } else {
-            List<Borrow> borrows = user.getBorrows();
-            // Eğer kullanıcıya ait borçlar varsa
-            if (borrows != null && !borrows.isEmpty()) {
-                // Her bir borç için kontrol yap
-                for (Borrow borrow : borrows) {
+            if(lastDelivery.getTotalFee() != 0)
+            user.setIsActionTake(false);
+        }
+        // Eğer kullanıcıya ait borçlar varsa
+        else if (borrows != null && !borrows.isEmpty()) {
+
+            // Her bir borç için kontrol yap
+            for (Borrow borrow : borrows) {
+                List<Book> books = borrow.getBooks(); // Borrow sınıfında List<Book> tipinde tanımlandığı için doğrudan bu listeyi alabiliriz
+                for (Book book : books) {
+                    LocalDate deadLine = borrow.getPickUpDate().plusDays(21);
                     // Borcun son teslim tarihi bugünden önceyse isActionTake'i true yap
-                    if (borrow.getDeadLine().isBefore(LocalDate.now())) {
+                    if (deadLine != null && deadLine.isAfter(LocalDate.now())) {
                         user.setIsActionTake(true);
                         // Herhangi bir borç günü geçtiyse döngüyü sonlandır
                         return;
                     }
                 }
-                // Tüm borçlar günü geçmemişse isActionTake'i false yap
-                user.setIsActionTake(false);
-            } else {
-                // Kullanıcıya ait ne teslimat ne de borç varsa isActionTake'i true yap
-                user.setIsActionTake(true);
             }
+            // Tüm borçlar günü geçmemişse isActionTake'i false yap
+            user.setIsActionTake(false);
+        } else {
+            // Kullanıcıya ait ne teslimat ne de borç varsa isActionTake'i true yap
+            user.setIsActionTake(true);
         }
     }
     private User tcIsPresentTcNum(String request){
@@ -132,5 +144,10 @@ public class UserServiceImpl implements UserService {
             throw  new BusinessException("Tc numarası bulunamadı");
         }
         return userRepository.findByTcNum(tcNum);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByEmail(username).orElseThrow();
     }
 }

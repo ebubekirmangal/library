@@ -1,11 +1,14 @@
 package com.example.demo.services.dtos.responses.delivery;
 
+import com.example.demo.entities.BookStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,11 +23,11 @@ public class DeleteDeliveryResponse {
 
     private String lastName;
 
-    private String bookName;
+    private List<String> bookNames;
 
     private LocalDate deadLine;
 
-    private long delayDate;
+    private int delayDate;
 
     private LocalDate receivedDate;
 
@@ -33,6 +36,10 @@ public class DeleteDeliveryResponse {
     private Double totalFee;
 
     private String message;
+
+//    private  List<DeliveryUserInfo> userInfos;
+//
+//    private List<DeliveryBookInfo> deliveryInfos;
 
 
 }

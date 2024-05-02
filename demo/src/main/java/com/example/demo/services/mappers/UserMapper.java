@@ -8,6 +8,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,20 +37,31 @@ public interface UserMapper {
         if (borrows == null) {
             return null;
         }
-        return borrows.stream()
-                .map(borrow -> {
-                    ListBooksPurshesedSoFar dto = new ListBooksPurshesedSoFar();
-                    dto.setBookName(borrow.getBook().getName());
-                    if (borrow.getDelivery() != null){
-                        dto.setBookStatus(BookStatus.OnTheShelf);
-                        dto.setTotalFee(borrow.getDelivery().getTotalFee());
-                    } else {
-                        dto.setBookStatus(BookStatus.AtTheVisitor);
-                        dto.setDeadLine(borrow.getDeadLine());
-                        dto.setTotalFee(0.0);
-                    }
-                    return dto;
-                })
-                .collect(Collectors.toList());
+        List<ListBooksPurshesedSoFar> dtos = new ArrayList<>();
+        for (Borrow borrow : borrows) {
+            ListBooksPurshesedSoFar dto = new ListBooksPurshesedSoFar();
+            List<InfoLittleList> littleDtos = new ArrayList<>();
+            List<Book> books = borrow.getBooks();
+            InfoLittleList littleList = new InfoLittleList();
+            borrow.setDeadLine(borrow.getPickUpDate().plusDays(21));
+            for (Book book : books) {
+                littleList.setBookName(book.getName());
+                if (borrow.getDelivery() != null) {
+                littleList.setBookStatus(BookStatus.OnTheShelf);
+                littleList.setDeadLine(null);
+                    dto.setTotalFee(borrow.getDelivery().getTotalFee());//TODO:totalFee yi direkt getByTcNumda döndür
+                } else {
+                littleList.setBookStatus(BookStatus.AtTheVisitor);
+                littleList.setDeadLine(borrow.getPickUpDate().plusDays(21));
+                    dto.setTotalFee(null);//TODO:totalFee yi direkt getByTcNumda döndür
+                }
+            }
+
+
+            littleDtos.add(littleList);
+            dto.setBookInfos(littleDtos);
+            dtos.add(dto);
+        }
+        return dtos;
     }
 }

@@ -16,6 +16,7 @@ import com.example.demo.services.mappers.BorrowMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,42 +33,46 @@ public class BorrowServiceImpl implements BorrowService {
         this.bookService = bookService;
     }
     @Override
-    public AddBorrowResponse add(AddBorrowRequest request) {
+    public AddBorrowResponse add(AddBorrowRequest request) {//TODO: Aynı kitaptan sadece 1 tane alabilir teslim edilmediyse
 
         Borrow borrow = BorrowMapper.INSTANCE.borrowToAddBorrowRequest(request);
 
-        int bookId = request.getBookId();
-        Book book = bookService.findById(bookId);
 
+        List<Book> books = bookService.findAllById(request.getBookIds());
+        if (books.isEmpty()) {
+            throw new BusinessException("Kitap bulunamadı.");
+        }
+
+        for (Book book : books) {
+            if (book.getBookStatus() == BookStatus.AtTheVisitor) {
+                throw new BusinessException("Kitap zaten kullanımda.");
+            }
+        }
+        LocalDate pickUpDate = LocalDate.now();
+        borrow.setPickUpDate(pickUpDate);
         String tcNum = request.getTcNum();
         User user = userService.findByTcNum(tcNum);
-
-        borrow.setBook(book);
+        borrow.setBooks(books);
         borrow.setUser(user);
 
-            if(user.getIsActionTake() == false){
+            if(!user.getIsActionTake()){
             throw new BusinessException("Kullanıcının borcu gözükmektedir ya da Ödünç alınan kitap teslim edilmemiştir.");
-        } else if(book.getBookStatus() == BookStatus.AtTheVisitor)
-                throw new BusinessException("Kitap zaten kullanımda");
+        }
             Borrow saved = borrowRepository.save(borrow);
-            AddBorrowResponse response = BorrowMapper.INSTANCE.addBorrowResponse(saved);
-            return response;
+        return BorrowMapper.INSTANCE.addBorrowResponse(saved);
 
     }
     public UpdateBorrowResponse update(UpdateBorrowRequest request) {
         Borrow borrow = BorrowMapper.INSTANCE.borrowToUpdateBorrowRequest(request);
         Borrow receivedDate = borrowRepository.save(borrow);
-        UpdateBorrowResponse response = BorrowMapper.INSTANCE.updateBorrowResponseToBorrow(receivedDate);
-        return response;
+        return BorrowMapper.INSTANCE.updateBorrowResponseToBorrow(receivedDate);
     }
     @Override
     public DeleteBorrowResponse delete(int id) {
         Borrow borrowId = borrowRepository.findById(id).orElseThrow(()->new BusinessException("id bulunamadı."));
         borrowRepository.delete(borrowId);
 
-        DeleteBorrowResponse response = BorrowMapper.INSTANCE.deleteBorrowResponseToBorrow(borrowId);
-
-        return response;
+        return BorrowMapper.INSTANCE.deleteBorrowResponseToBorrow(borrowId);
     }
 
     @Override
@@ -85,7 +90,7 @@ public class BorrowServiceImpl implements BorrowService {
     @Override
     public Borrow findById(int id) {
 
-        return borrowRepository.findById(id).orElseThrow(()-> new BusinessException("id bulunamadı"));
+        return borrowRepository.findById(id).orElseThrow(()-> new BusinessException("Borrow id bulunamadı"));
 
     }
 

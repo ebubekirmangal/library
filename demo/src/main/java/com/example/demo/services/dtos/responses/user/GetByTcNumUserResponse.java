@@ -1,6 +1,6 @@
 package com.example.demo.services.dtos.responses.user;
 
-import com.example.demo.entities.UserType;
+import com.example.demo.entities.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ public class GetByTcNumUserResponse {
 
     private String tcNum;
 
-    private UserType userType;
+    private UserRole userRole;
 
     private String firstName;
 

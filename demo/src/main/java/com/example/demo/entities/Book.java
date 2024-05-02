@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "books")
 @Getter
@@ -40,9 +42,9 @@ public class Book {
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
-    @OneToOne(mappedBy = "book")
-    private Borrow borrow;
+    @ManyToMany(mappedBy = "books",fetch = FetchType.LAZY)
+    private List<Borrow> borrows;
 
-    @OneToOne(mappedBy = "book")
-    private Delivery delivery;
+    @ManyToMany(mappedBy = "books",fetch = FetchType.LAZY)
+    private List<Delivery> deliveries;
 }

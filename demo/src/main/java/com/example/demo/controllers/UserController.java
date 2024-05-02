@@ -4,13 +4,14 @@ import com.example.demo.services.abstracts.UserService;
 import com.example.demo.services.dtos.requests.user.AddUserRequest;
 import com.example.demo.services.dtos.requests.user.UpdateUserRequest;
 import com.example.demo.services.dtos.responses.user.*;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/control/user")
 public class UserController {
 
     private UserService userService;
@@ -21,7 +22,7 @@ public class UserController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public AddUserResponse add(@RequestBody AddUserRequest request){
+    public AddUserResponse add(@RequestBody @Valid AddUserRequest request){
         return userService.add(request);
     }
 
@@ -41,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/isActionTake/{tcNum}")
-    public GetByTcNumUserResponse getByTcNum(@PathVariable("tcNum") String tcNum ){
+    public GetByTcNumUserResponse getByTcNum(@PathVariable("tcNum")  String tcNum ){
         return userService.getByTcNum(tcNum);
     }
 }

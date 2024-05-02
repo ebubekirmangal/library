@@ -17,10 +17,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookServiceImpl implements BookService {
-//Todo: kitap eklemesi yapıldığında book status girişide yapılsın
+
     private BookRepository bookRepository;
 
     private CategoryService categoryService;
@@ -96,7 +97,36 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book findById(int id) {
-        return bookRepository.findById(id).orElseThrow(()-> new BusinessException("id bulunamadı."));
+    public List<Book> findAllById(List<Integer> idList) {
+        // ID'lerin null olup olmadığını kontrol et
+        if (idList == null || idList.isEmpty()) {
+            throw new IllegalArgumentException("ID list is null or empty");
+        }
+
+        // Geçersiz ID'leri filtrele
+        List<Integer> validIds = idList.stream()
+                .filter(id -> id != null && id > 0) // Örnek geçerlilik kontrolü, burayı projenize göre ayarlayın
+                .collect(Collectors.toList());
+
+        // Tüm ID'lerin geçersiz olup olmadığını kontrol et
+        if (validIds.isEmpty()) {
+            throw new IllegalArgumentException("All IDs are invalid");
+        }
+
+        // Geçerli ID'lerle kitapları getir
+        List<Book> books = bookRepository.findAllById(validIds);
+
+        // Her ID'nin bir kitapla eşleşmediğini kontrol et
+        if (books.size() != validIds.size()) {
+            throw new IllegalStateException("Not all IDs matched with books");
+        }
+
+        return books;
     }
+
+    @Override
+    public Book findById(int id) {
+        return bookRepository.findById(id).orElseThrow(()-> new BusinessException("Kitap id'si bulunamadı"));
+    }
+
 }

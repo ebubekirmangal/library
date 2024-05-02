@@ -1,19 +1,23 @@
 package com.example.demo.services.dtos.responses.user;
 
+import com.example.demo.entities.BookStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ListBooksPurshesedSoFar {
+public class InfoLittleList {
 
+    private String bookName;
 
-    private List<InfoLittleList> bookInfos;
-    private Double totalFee;
+    private BookStatus bookStatus;
+
+    private LocalDate deadLine;
 }

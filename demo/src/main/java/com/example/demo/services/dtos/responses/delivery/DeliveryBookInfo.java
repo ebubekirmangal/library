@@ -1,6 +1,5 @@
 package com.example.demo.services.dtos.responses.delivery;
 
-import com.example.demo.entities.BookStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,17 +12,9 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllDeliveryResponse {
+public class DeliveryBookInfo {
 
-    private int id;
-
-    private String tcNum;
-
-    private String firstName;
-
-    private String lastName;
-
-    private List<String> bookNames;
+    private String bookName;
 
     private LocalDate deadLine;
 
@@ -36,10 +27,4 @@ public class GetAllDeliveryResponse {
     private Double totalFee;
 
     private String message;
-
-//    private  List<DeliveryUserInfo> userInfos;
-//
-//    private List<DeliveryBookInfo> deliveryInfos;
-
-
 }
