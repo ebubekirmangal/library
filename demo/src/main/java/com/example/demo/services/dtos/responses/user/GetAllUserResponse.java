@@ -18,7 +18,7 @@ public class GetAllUserResponse {
 
     private String tcNum;
 
-    private UserType userType;
+    //private UserType userType;
 
     private String firstName;
 

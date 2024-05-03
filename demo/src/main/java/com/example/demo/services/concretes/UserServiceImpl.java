@@ -1,60 +1,48 @@
 package com.example.demo.services.concretes;
 
+import com.example.demo.core.services.JwtService;
 import com.example.demo.core.utils.exceptions.types.BusinessException;
 import com.example.demo.entities.Borrow;
 import com.example.demo.entities.Delivery;
 import com.example.demo.entities.User;
-import com.example.demo.repositories.DeliveryRepository;
-import com.example.demo.services.dtos.responses.user.*;
-import com.example.demo.services.mappers.UserMapper;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.abstracts.UserService;
-import com.example.demo.services.dtos.requests.user.AddUserRequest;
-import com.example.demo.services.dtos.requests.user.UpdateUserRequest;
+import com.example.demo.services.dtos.requests.user.UserLoginRequest;
+import com.example.demo.services.dtos.requests.user.UserRegisterRequest;
+import com.example.demo.services.dtos.responses.user.DeleteUserResponse;
+import com.example.demo.services.dtos.responses.user.GetAllUserResponse;
+import com.example.demo.services.dtos.responses.user.GetByTcNumUserResponse;
+import com.example.demo.services.mappers.UserMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
-public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
-
-
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-
-    }
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService{
+    private final UserRepository userRepository;
 
     @Override
-    public AddUserResponse add(AddUserRequest request) {//TODO:isAction take aktif hale getir. totalFee ve deadline ekle
-        List<User> users = userRepository.findAll();
-
-        for(User user:users){
-            if(request.getTcNum().equals(user.getTcNum())){
-                throw new BusinessException("Aynı Tc numarası ile zaten giriş yapılmıştır.");
-            }
-        }
-
-        User user = UserMapper.INSTANCE.userToAddUserRequest(request);
-
-        User saved = userRepository.save(user);
-
-        AddUserResponse response = UserMapper.INSTANCE.addUserResponseToUser(saved);
-
-        return response;
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email).orElseThrow(()-> new BusinessException("E-posta bulunamadı."));
     }
-    @Override
-    public UpdateUserResponse update(UpdateUserRequest request) {
-        User user = UserMapper.INSTANCE.userToUpdateUserRequest(request);
-        User updated = userRepository.save(user);
 
-        UpdateUserResponse response = UserMapper.INSTANCE.updateUserResponseToUser(updated);
-        return response;
-    }
+//    @Override
+//    public UpdateUserResponse update(UpdateUserRequest request) {
+//        User user = UserMapper.INSTANCE.userToUpdateUserRequest(request);
+//        User updated = userRepository.save(user);
+//
+//        UpdateUserResponse response = UserMapper.INSTANCE.updateUserResponseToUser(updated);
+//        return response;
+//    }
     @Override
     public DeleteUserResponse delete(String tcNum) {
         User user = tcIsPresentTcNum(tcNum);
@@ -133,4 +121,6 @@ public class UserServiceImpl implements UserService {
         }
         return userRepository.findByTcNum(tcNum);
     }
+
+
 }

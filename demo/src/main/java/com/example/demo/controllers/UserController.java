@@ -1,7 +1,8 @@
 package com.example.demo.controllers;
 
 import com.example.demo.services.abstracts.UserService;
-import com.example.demo.services.dtos.requests.user.AddUserRequest;
+import com.example.demo.services.dtos.requests.user.UserLoginRequest;
+import com.example.demo.services.dtos.requests.user.UserRegisterRequest;
 import com.example.demo.services.dtos.requests.user.UpdateUserRequest;
 import com.example.demo.services.dtos.responses.user.*;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     private UserService userService;
@@ -19,16 +20,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/add")
-    @ResponseStatus(HttpStatus.CREATED)
-    public AddUserResponse add(@RequestBody AddUserRequest request){
-        return userService.add(request);
-    }
 
-    @PutMapping("/update")
-    public UpdateUserResponse update(@RequestBody UpdateUserRequest request){
-        return userService.update(request);
-    }
+    //@PutMapping("/update")
+    //public UpdateUserResponse update(@RequestBody UpdateUserRequest request){
+    //    return userService.update(request);
+    //}
 
     @DeleteMapping("/delete/{tcNum}")
     public DeleteUserResponse delete(@PathVariable("tcNum") String tcNum){

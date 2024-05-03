@@ -16,7 +16,7 @@ public class GetByTcNumUserResponse {
 
     private String tcNum;
 
-    private UserType userType;
+    //private UserType userType;
 
     private String firstName;
 

@@ -1,7 +1,7 @@
 package com.example.demo.services.mappers;
 
 import com.example.demo.entities.*;
-import com.example.demo.services.dtos.requests.user.AddUserRequest;
+import com.example.demo.services.dtos.requests.user.UserRegisterRequest;
 import com.example.demo.services.dtos.requests.user.UpdateUserRequest;
 import com.example.demo.services.dtos.responses.user.*;
 import org.mapstruct.Mapper;
@@ -16,9 +16,9 @@ public interface UserMapper {
 
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    User userToAddUserRequest(AddUserRequest request);
+    User userToUserRegisterRequest(UserRegisterRequest request);
 
-    AddUserResponse addUserResponseToUser(User user);
+//    AddUserResponse addUserResponseToUser(User user);
 
     User userToUpdateUserRequest(UpdateUserRequest request);
 
