@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface DeliveryRepository extends JpaRepository<Delivery, Integer> {
     Optional<Delivery> findById(Optional<Delivery> lastDeliveryOptional);
+    //TODO: query yazılacak.
 }

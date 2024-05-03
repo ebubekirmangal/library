@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/author")
+@RequestMapping("/api/v1/authors")
 public class AuthorsController {
 
     private AuthorService authorService;
@@ -39,7 +39,7 @@ public class AuthorsController {
         return authorService.delete(id);
     }
 
-    @GetMapping("/GetAll")
+    @GetMapping("/getAll")
     public List<GetAllAuthorResponse> getAll(){
         return authorService.getAll();
     }

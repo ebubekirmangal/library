@@ -1,6 +1,6 @@
 package com.example.demo.services.dtos.requests.user;
 
-import com.example.demo.entities.UserType;
+import com.example.demo.entities.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,10 +15,13 @@ public class AddUserRequest {
 
     private String tcNum;
 
-    private UserType userType;
+    private Role role;
 
     private String firstName;
 
     private String lastName;
+
+    private String email;
+    private String password;
 
 }

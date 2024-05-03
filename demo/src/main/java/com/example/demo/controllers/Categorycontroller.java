@@ -8,12 +8,13 @@ import com.example.demo.services.dtos.responses.category.DeleteCategoryResponse;
 import com.example.demo.services.dtos.responses.category.GetAllCategoryResponse;
 import com.example.demo.services.dtos.responses.category.UpdateCategoryResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/api/v1/categories")
 public class Categorycontroller {
 
     private CategoryService categoryService;
@@ -41,6 +42,7 @@ public class Categorycontroller {
     }
 
     @GetMapping("/getAll")
+    @PreAuthorize("hasAnyRole('VISITOR', 'EMPLOYEE')")
     private List<GetAllCategoryResponse> getAll(){
         return categoryService.getAll();
     }

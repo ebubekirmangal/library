@@ -1,19 +1,17 @@
 package com.example.demo.controllers;
 
+import com.example.demo.entities.Borrow;
 import com.example.demo.services.abstracts.BorrowService;
 import com.example.demo.services.dtos.requests.borrow.AddBorrowRequest;
 import com.example.demo.services.dtos.requests.borrow.UpdateBorrowRequest;
-import com.example.demo.services.dtos.responses.borrow.AddBorrowResponse;
-import com.example.demo.services.dtos.responses.borrow.DeleteBorrowResponse;
-import com.example.demo.services.dtos.responses.borrow.GetAllBorrowResponse;
-import com.example.demo.services.dtos.responses.borrow.UpdateBorrowResponse;
+import com.example.demo.services.dtos.responses.borrow.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/borrow")
+@RequestMapping("api/v1/borrows")
 public class BorrowController {
 
     private BorrowService borrowService;
@@ -42,4 +40,10 @@ public class BorrowController {
     public List<GetAllBorrowResponse> getAll(){
         return borrowService.getAll();
     }
+
+    @GetMapping("/getUserWhoBorrowsTheMostBooks")
+    public List<Borrow> top3UserByMostBorrow() {
+        return borrowService.top3UserByMostBorrow();
+    }
+
 }

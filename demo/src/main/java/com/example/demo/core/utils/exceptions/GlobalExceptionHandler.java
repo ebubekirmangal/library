@@ -1,4 +1,4 @@
-package com.example.demo.core.configurations;
+package com.example.demo.core.utils.exceptions;
 
 import com.example.demo.core.utils.exceptions.details.BusinessProblemDetails;
 import com.example.demo.core.utils.exceptions.details.ValidationProblemDetails;

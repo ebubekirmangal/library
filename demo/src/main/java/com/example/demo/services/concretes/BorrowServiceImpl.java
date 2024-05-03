@@ -8,14 +8,11 @@ import com.example.demo.services.abstracts.BorrowService;
 import com.example.demo.services.abstracts.UserService;
 import com.example.demo.services.dtos.requests.borrow.AddBorrowRequest;
 import com.example.demo.services.dtos.requests.borrow.UpdateBorrowRequest;
-import com.example.demo.services.dtos.responses.borrow.AddBorrowResponse;
-import com.example.demo.services.dtos.responses.borrow.DeleteBorrowResponse;
-import com.example.demo.services.dtos.responses.borrow.GetAllBorrowResponse;
-import com.example.demo.services.dtos.responses.borrow.UpdateBorrowResponse;
+import com.example.demo.services.dtos.responses.borrow.*;
 import com.example.demo.services.mappers.BorrowMapper;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.GapContent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,6 +85,9 @@ public class BorrowServiceImpl implements BorrowService {
         return borrowRepository.findById(id).orElseThrow(()-> new BusinessException("id bulunamadı"));
 
     }
-
-
+    @Override
+    public List<Borrow> top3UserByMostBorrow() {
+        List<Borrow> query =borrowRepository.findTopUserByMostBorrow();
+        return query;
+    }
 }

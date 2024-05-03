@@ -11,6 +11,10 @@ import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.abstracts.UserService;
 import com.example.demo.services.dtos.requests.user.AddUserRequest;
 import com.example.demo.services.dtos.requests.user.UpdateUserRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,15 +24,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
-
-
+    @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-
     }
-
     @Override
     public AddUserResponse add(AddUserRequest request) {//TODO:isAction take aktif hale getir. totalFee ve deadline ekle
         List<User> users = userRepository.findAll();
@@ -132,5 +134,11 @@ public class UserServiceImpl implements UserService {
             throw  new BusinessException("Tc numarası bulunamadı");
         }
         return userRepository.findByTcNum(tcNum);
+    }
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        User username = userOptional.orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        return username;
     }
 }
